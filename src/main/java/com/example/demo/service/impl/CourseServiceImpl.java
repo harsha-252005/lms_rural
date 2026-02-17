@@ -15,8 +15,14 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
+    private com.example.demo.repository.InstructorRepository instructorRepository;
+
     @Override
-    public Course createCourse(Course course) {
+    public Course createCourse(Course course, Long instructorId) {
+        com.example.demo.model.Instructor instructor = instructorRepository.findById(instructorId)
+                .orElseThrow(() -> new RuntimeException("Instructor not found with id " + instructorId));
+        course.setInstructor(instructor);
         return courseRepository.save(course);
     }
 
@@ -48,5 +54,10 @@ public class CourseServiceImpl implements CourseService {
         } else {
             throw new RuntimeException("Course not found with id " + id);
         }
+    }
+
+    @Override
+    public List<Course> getCoursesByInstructor(Long instructorId) {
+        return courseRepository.findByInstructorId(instructorId);
     }
 }
