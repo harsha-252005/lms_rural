@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CourseService {
-    Course createCourse(Course course);
+    Course createCourse(Course course, Long instructorId);
 
     List<Course> getAllCourses();
 
@@ -14,4 +14,6 @@ public interface CourseService {
     Course updateCourse(Long id, Course course);
 
     void deleteCourse(Long id);
+
+    List<Course> getCoursesByInstructor(Long instructorId);
 }
