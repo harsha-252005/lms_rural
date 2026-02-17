@@ -14,20 +14,21 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
-@CrossOrigin(origins = "*") // Allow requests from any frontend for now
+@CrossOrigin(origins = "*") // Allow requests from any frontend for nowdfgbhijk
 @Tag(name = "Student Controller", description = "Operations related to Student management")
 public class StudentController {
 
     @Autowired
     private StudentService studentService;
 
-    @PostMapping
-    @Operation(summary = "Register Students")
-    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) {
-        Student createdStudent = studentService.createStudent(student);
-        return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
+    // @PostMapping
+    // @Operation(summary = "Register Students")
+    // public ResponseEntity<Student> createStudent(@Valid @RequestBody Student
+    // student) {
+    // Student createdStudent = studentService.createStudent(student);
+    // return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
 
-    }
+    // }
 
     @GetMapping
     @Operation(summary = "Get All Students")
