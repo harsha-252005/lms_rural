@@ -21,14 +21,14 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    // @PostMapping
-    // @Operation(summary = "Register Students")
-    // public ResponseEntity<Student> createStudent(@Valid @RequestBody Student
-    // student) {
-    // Student createdStudent = studentService.createStudent(student);
-    // return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
+    @PostMapping
+    @Operation(summary = "Register Students")
+    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student
+    student) {
+    Student createdStudent = studentService.createStudent(student);
+    return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
 
-    // }
+    }
 
     @GetMapping
     @Operation(summary = "Get All Students")
