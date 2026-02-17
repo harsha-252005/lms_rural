@@ -20,8 +20,8 @@ public class CourseController {
 
     @PostMapping("/create")
     @Operation(summary = "Create a new course")
-    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
-        Course createdCourse = courseService.createCourse(course);
+    public ResponseEntity<Course> createCourse(@RequestBody Course course, @RequestParam Long instructorId) {
+        Course createdCourse = courseService.createCourse(course, instructorId);
         return ResponseEntity.ok(createdCourse);
     }
 
@@ -60,5 +60,12 @@ public class CourseController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/instructor/{instructorId}")
+    @Operation(summary = "Get courses by instructor ID")
+    public ResponseEntity<List<Course>> getCoursesByInstructor(@PathVariable Long instructorId) {
+        List<Course> courses = courseService.getCoursesByInstructor(instructorId);
+        return ResponseEntity.ok(courses);
     }
 }

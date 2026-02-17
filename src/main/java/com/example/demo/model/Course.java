@@ -25,6 +25,10 @@ public class Course {
 
     private Integer duration;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "instructor_id")
+    private Instructor instructor;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
