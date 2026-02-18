@@ -1,7 +1,10 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Course;
+import com.example.demo.model.Instructor;
 import com.example.demo.repository.CourseRepository;
+import com.example.demo.repository.InstructorRepository;
 import com.example.demo.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +19,12 @@ public class CourseServiceImpl implements CourseService {
     private CourseRepository courseRepository;
 
     @Autowired
-    private com.example.demo.repository.InstructorRepository instructorRepository;
+    private InstructorRepository instructorRepository;
 
     @Override
     public Course createCourse(Course course, Long instructorId) {
-        com.example.demo.model.Instructor instructor = instructorRepository.findById(instructorId)
-                .orElseThrow(() -> new RuntimeException("Instructor not found with id " + instructorId));
+        Instructor instructor = instructorRepository.findById(instructorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Instructor not found with id " + instructorId));
         course.setInstructor(instructor);
         return courseRepository.save(course);
     }
@@ -44,7 +47,7 @@ public class CourseServiceImpl implements CourseService {
             course.setDuration(courseDetails.getDuration());
             // createdAt and updatedAt are handled by Entity listeners
             return courseRepository.save(course);
-        }).orElseThrow(() -> new RuntimeException("Course not found with id " + id));
+        }).orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + id));
     }
 
     @Override
@@ -52,7 +55,7 @@ public class CourseServiceImpl implements CourseService {
         if (courseRepository.existsById(id)) {
             courseRepository.deleteById(id);
         } else {
-            throw new RuntimeException("Course not found with id " + id);
+            throw new ResourceNotFoundException("Course not found with id " + id);
         }
     }
 
