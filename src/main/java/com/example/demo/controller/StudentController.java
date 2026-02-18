@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Student;
 import com.example.demo.service.StudentService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,19 +14,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
-@CrossOrigin(origins = "*") // Allow requests from any frontend for nowdfgbhijk
+@CrossOrigin(origins = "*")
 @Tag(name = "Student Controller", description = "Operations related to Student management")
+@RequiredArgsConstructor
 public class StudentController {
 
-    @Autowired
-    private StudentService studentService;
+    private final StudentService studentService;
 
     @PostMapping
     @Operation(summary = "Register Students")
-    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student
-    student) {
-    Student createdStudent = studentService.createStudent(student);
-    return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
+    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) {
+        Student createdStudent = studentService.createStudent(student);
+        return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
 
     }
 
@@ -51,7 +50,7 @@ public class StudentController {
     // @DeleteMapping("/{id}")
     // @Operation(summary = "Remove Student")
     // public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
-    //     studentService.deleteStudent(id);
-    //     return ResponseEntity.noContent().build();
+    // studentService.deleteStudent(id);
+    // return ResponseEntity.noContent().build();
     // }
 }
