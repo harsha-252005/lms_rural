@@ -4,17 +4,17 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Instructor;
 import com.example.demo.repository.InstructorRepository;
 import com.example.demo.service.InstructorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class InstructorServiceImpl implements InstructorService {
 
-    @Autowired
-    private InstructorRepository instructorRepository;
+    private final InstructorRepository instructorRepository;
 
     @Override
     public Instructor registerInstructor(Instructor instructor) {
