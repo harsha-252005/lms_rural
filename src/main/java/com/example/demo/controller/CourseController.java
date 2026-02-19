@@ -18,12 +18,12 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @PostMapping("/create")
-    @Operation(summary = "Create a new course")
-    public ResponseEntity<Course> createCourse(@RequestBody Course course, @RequestParam Long instructorId) {
-        Course createdCourse = courseService.createCourse(course, instructorId);
-        return ResponseEntity.ok(createdCourse);
-    }
+    // @PostMapping("/create")
+    // @Operation(summary = "Create a new course")
+    // public ResponseEntity<Course> createCourse(@RequestBody Course course, @RequestParam Long instructorId) {
+    //     Course createdCourse = courseService.createCourse(course, instructorId);
+    //     return ResponseEntity.ok(createdCourse);
+    // }
 
     @GetMapping
     @Operation(summary = "Get all courses")
