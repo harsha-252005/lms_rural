@@ -4,16 +4,16 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     @Override
     public Student createStudent(Student student) {

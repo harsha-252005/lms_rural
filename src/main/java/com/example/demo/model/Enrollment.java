@@ -27,8 +27,11 @@ public class Enrollment {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @Column(name = "enrollment_date", nullable = false)
+    @Column(name = "enrollment_date", nullable = false, updatable = false)
     private LocalDateTime enrollmentDate;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @Column(name = "progress_percentage")
     private Double progressPercentage = 0.0;
@@ -39,11 +42,17 @@ public class Enrollment {
     @PrePersist
     protected void onCreate() {
         enrollmentDate = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
         if (progressPercentage == null) {
             progressPercentage = 0.0;
         }
         if (status == null) {
             status = "ENROLLED";
         }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }
