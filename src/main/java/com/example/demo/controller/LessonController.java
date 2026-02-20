@@ -44,7 +44,7 @@ public class LessonController {
     @Operation(summary = "Update an existing lesson")
     @PutMapping("/lessons/{lessonId}/update")
     public ResponseEntity<Lesson> updateLesson(@PathVariable Long lessonId, @Valid @RequestBody Lesson lesson) {
-        Lesson updatedLesson = lessonService.updateLesson(lessonId, lesson);
+        Lesson updatedLesson = lessonService.updateLesson(lessonId, lesson, lesson.getContentType());
         return ResponseEntity.ok(updatedLesson);
     }
 

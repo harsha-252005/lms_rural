@@ -2,13 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Student;
 import com.example.demo.service.StudentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.Operation;
 
 import java.util.List;
 
@@ -23,10 +23,9 @@ public class StudentController {
 
     @PostMapping
     @Operation(summary = "Register Students")
-    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student
-    student) {
-    Student createdStudent = studentService.createStudent(student);
-    return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
+    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) {
+        Student createdStudent = studentService.createStudent(student);
+        return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
 
     }
 
@@ -51,7 +50,7 @@ public class StudentController {
     // @DeleteMapping("/{id}")
     // @Operation(summary = "Remove Student")
     // public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
-    //     studentService.deleteStudent(id);
-    //     return ResponseEntity.noContent().build();
+    // studentService.deleteStudent(id);
+    // return ResponseEntity.noContent().build();
     // }
 }
