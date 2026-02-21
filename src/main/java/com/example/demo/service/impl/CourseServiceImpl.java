@@ -16,11 +16,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
-    @Autowired
-    private CourseRepository courseRepository;
-
-    @Autowired
-    private com.example.demo.repository.InstructorRepository instructorRepository;
+    private final CourseRepository courseRepository;
+    private final InstructorRepository instructorRepository;
 
     @Override
     public Course createCourse(Course course, Long instructorId) {
@@ -52,10 +49,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteCourse(Long id) {
-        if (courseRepository.existsById(id)) {
-            courseRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Course not found with id " + id);
+        if (!courseRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Course not found with id " + id);
         }
         courseRepository.deleteById(id);
     }
