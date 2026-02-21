@@ -31,4 +31,7 @@ public class Student {
 
     @NotBlank(message = "Village is required")
     private String village;
+
+    @NotBlank(message = "Password is required")
+    private String password;
 }
