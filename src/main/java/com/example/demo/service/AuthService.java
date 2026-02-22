@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.InstructorRegistrationDto;
 import com.example.demo.dto.LoginDto;
+import com.example.demo.dto.LoginResponseDto;
 import com.example.demo.dto.StudentRegistrationDto;
 
 public interface AuthService {
@@ -9,5 +10,5 @@ public interface AuthService {
 
     String registerInstructor(InstructorRegistrationDto registrationDto);
 
-    String login(LoginDto loginDto);
+    LoginResponseDto login(LoginDto loginDto);
 }
