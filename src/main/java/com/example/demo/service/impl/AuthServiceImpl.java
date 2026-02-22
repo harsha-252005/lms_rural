@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dto.InstructorRegistrationDto;
 import com.example.demo.dto.LoginDto;
+import com.example.demo.dto.LoginResponseDto;
 import com.example.demo.dto.StudentRegistrationDto;
 import com.example.demo.model.Instructor;
 import com.example.demo.model.Student;
@@ -58,16 +59,26 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginDto loginDto) {
+    public LoginResponseDto login(LoginDto loginDto) {
         if ("STUDENT".equalsIgnoreCase(loginDto.getRole())) {
             Optional<Student> student = studentRepository.findByEmail(loginDto.getEmail());
             if (student.isPresent() && student.get().getPassword().equals(loginDto.getPassword())) {
-                return "Login successful for Student";
+                return new LoginResponseDto(
+                        "Login successful for Student",
+                        student.get().getId(),
+                        student.get().getName(),
+                        student.get().getEmail(),
+                        "STUDENT");
             }
         } else if ("INSTRUCTOR".equalsIgnoreCase(loginDto.getRole())) {
             Optional<Instructor> instructor = instructorRepository.findByEmail(loginDto.getEmail());
             if (instructor.isPresent() && instructor.get().getPassword().equals(loginDto.getPassword())) {
-                return "Login successful for Instructor";
+                return new LoginResponseDto(
+                        "Login successful for Instructor",
+                        instructor.get().getId(),
+                        instructor.get().getName(),
+                        instructor.get().getEmail(),
+                        "INSTRUCTOR");
             }
         }
 

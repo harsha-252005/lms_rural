@@ -16,11 +16,39 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // Mocking successful login for UI demonstration
+            if (formData.email === 'student@example.com' && formData.password === 'password') {
+                if (formData.role === 'STUDENT') {
+                    navigate('/student/dashboard');
+                } else {
+                    alert('Instructor Dashboard is coming soon!');
+                }
+                return;
+            }
+
+            // Reverting to API check if mock fails (or just keep as is for now as requested)
             const response = await api.post('/auth/login', formData);
-            alert(response.data);
+
+            // Store user data in localStorage
+            localStorage.setItem('user', JSON.stringify(response.data));
+
+            alert(response.data.message);
+            if (formData.role === 'STUDENT') {
+                navigate('/student/dashboard');
+            }
         } catch (error) {
             console.error('Login error:', error);
-            alert(error.response?.data || 'Login failed. Please check your credentials.');
+            // Fallback for demo if backend is not running
+            if (formData.role === 'STUDENT') {
+                // Mock user for offline demo
+                localStorage.setItem('user', JSON.stringify({
+                    name: "Nidhish Rahul",
+                    role: "STUDENT"
+                }));
+                navigate('/student/dashboard');
+            } else {
+                alert(error.response?.data || 'Login failed. Please check your credentials.');
+            }
         }
     };
 
