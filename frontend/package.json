@@ -1,4 +1,5 @@
 {
+  "name": "instructor-dashboard",
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
@@ -10,6 +11,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.344.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.1.4"
     "@tailwindcss/vite": "^4.2.0",
     "autoprefixer": "^10.4.24",
     "axios": "^1.13.5",

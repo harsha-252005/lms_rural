@@ -6,6 +6,7 @@ import com.example.demo.model.ContentType;
 import com.example.demo.model.Lesson;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.LessonRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,13 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LessonService {
 
-    @Autowired
-    private LessonRepository lessonRepository;
-
-    @Autowired
-    private CourseRepository courseRepository;
+    private final LessonRepository lessonRepository;
+    private final CourseRepository courseRepository;
 
     @Transactional
     public Lesson createLesson(Long courseId, Lesson lesson) {

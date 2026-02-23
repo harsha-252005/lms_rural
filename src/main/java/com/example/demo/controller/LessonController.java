@@ -5,7 +5,7 @@ import com.example.demo.service.LessonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @Tag(name = "Lesson Management", description = "APIs for managing lessons within courses")
+@RequiredArgsConstructor
 public class LessonController {
 
-    @Autowired
-    private LessonService lessonService;
+    private final LessonService lessonService;
 
     @Operation(summary = "Create a new lesson for a course")
     @PostMapping("/courses/{courseId}/lessons/create")

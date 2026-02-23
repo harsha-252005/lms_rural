@@ -5,7 +5,7 @@ import com.example.demo.service.InstructorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/instructors")
 @Tag(name = "Instructor Management", description = "APIs for managing instructors")
+@RequiredArgsConstructor
 public class InstructorController {
 
-    @Autowired
-    private InstructorService instructorService;
+    private final InstructorService instructorService;
 
     @PostMapping("/register")
     @Operation(summary = "Register a new instructor")
