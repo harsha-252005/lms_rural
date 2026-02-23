@@ -32,8 +32,14 @@ public class Instructor {
 
     private String specialization;
 
+    @NotBlank(message = "Password is required")
+    private String password;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -42,5 +48,11 @@ public class Instructor {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }

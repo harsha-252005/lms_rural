@@ -56,12 +56,13 @@ public class EnrollmentController {
     }
 
     @GetMapping("/student/{studentId}")
+    @GetMapping("/students/{studentId}")
     @Operation(summary = "Get all enrollments of a student")
     public ResponseEntity<List<Enrollment>> getEnrollmentsByStudent(@PathVariable Long studentId) {
         return ResponseEntity.ok(enrollmentService.getStudentEnrollments(studentId));
     }
 
-    @GetMapping("/course/{courseId}")
+    @GetMapping("/courses/{courseId}")
     @Operation(summary = "Get all enrollments for a course")
     public ResponseEntity<List<Enrollment>> getEnrollmentsByCourse(@PathVariable Long courseId) {
         return ResponseEntity.ok(enrollmentService.getCourseEnrollments(courseId));
@@ -71,5 +72,21 @@ public class EnrollmentController {
     public static class EnrollmentRequest {
         private Long studentId;
         private Long courseId;
+
+        public Long getStudentId() {
+            return studentId;
+        }
+
+        public Long getCourseId() {
+            return courseId;
+        }
+
+        public void setStudentId(Long studentId) {
+            this.studentId = studentId;
+        }
+
+        public void setCourseId(Long courseId) {
+            this.courseId = courseId;
+        }
     }
 }

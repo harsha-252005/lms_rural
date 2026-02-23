@@ -43,3 +43,68 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+@layer base {
+  body {
+    @apply m-0 p-0 box-border overflow-x-hidden;
+    background-color: #0f172a;
+  }
+}
+
+@theme {
+  --color-electric-indigo: #6366f1;
+  --color-sunset-pink: #f43f5e;
+  --color-mint-breeze: #10b981;
+  --color-royal-purple: #8b5cf6;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: float 20s infinite alternate;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.glass-card {
+  @apply bg-white/10 backdrop-blur-xl border border-white/20;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.input-glass {
+  @apply bg-white/5 border border-white/10 rounded-2xl px-12 py-4 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-electric-indigo/50 transition-all duration-300 font-light;
+}
+
+.btn-primary {
+  @apply relative overflow-hidden bg-gradient-to-r from-electric-indigo to-royal-purple text-white font-bold py-4 rounded-2xl shadow-lg hover:shadow-indigo-500/40 transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  @apply absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-all duration-500;
+}
+
+.btn-primary:hover::after {
+  @apply left-full;
+}

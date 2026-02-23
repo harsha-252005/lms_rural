@@ -2,10 +2,12 @@ package com.example.demo.service;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Course;
+import com.example.demo.model.ContentType;
 import com.example.demo.model.Lesson;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +42,7 @@ public class LessonService {
     }
 
     @Transactional
-    public Lesson updateLesson(Long lessonId, Lesson updatedLesson) {
+    public Lesson updateLesson(Long lessonId, Lesson updatedLesson, ContentType contentType) {
         Lesson existingLesson = getLessonById(lessonId);
 
         existingLesson.setTitle(updatedLesson.getTitle());

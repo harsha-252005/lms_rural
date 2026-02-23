@@ -43,7 +43,6 @@ public class CourseServiceImpl implements CourseService {
             course.setTitle(courseDetails.getTitle());
             course.setDescription(courseDetails.getDescription());
             course.setDuration(courseDetails.getDuration());
-            // createdAt and updatedAt are handled by Entity listeners
             return courseRepository.save(course);
         }).orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + id));
     }
@@ -53,8 +52,10 @@ public class CourseServiceImpl implements CourseService {
         if (courseRepository.existsById(id)) {
             courseRepository.deleteById(id);
         } else {
+        if (!courseRepository.existsById(id)) {
             throw new ResourceNotFoundException("Course not found with id " + id);
         }
+        courseRepository.deleteById(id);
     }
 
     @Override
