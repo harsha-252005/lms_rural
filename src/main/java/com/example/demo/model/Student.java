@@ -80,4 +80,6 @@ public class Student {
     public void setVillage(String village) {
         this.village = village;
     }
+    @NotBlank(message = "Password is required")
+    private String password;
 }
