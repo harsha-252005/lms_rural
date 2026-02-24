@@ -50,6 +50,8 @@ public class Lesson {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
     public Long getId() {
         return id;
     }

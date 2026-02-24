@@ -9,6 +9,7 @@ import {
     Database,
     Rocket
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import DashboardNavbar from '../components/DashboardNavbar';
 import StatCard from '../components/StatCard';
@@ -25,6 +26,7 @@ const Cloud = (props) => (
 );
 
 const StudentDashboard = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState({ name: "Student" });
 
     useEffect(() => {
@@ -34,11 +36,7 @@ const StudentDashboard = () => {
                 setUser(JSON.parse(storedUser));
             } catch (e) {
                 console.error("Failed to parse user from localStorage", e);
-                setUser({ name: "Nidhish Rahul" });
             }
-        } else {
-            setUser({ name: "Nidhish Rahul" });
-            localStorage.setItem('user', JSON.stringify({ name: "Nidhish Rahul" }));
         }
     }, []);
 
@@ -191,7 +189,12 @@ const StudentDashboard = () => {
                                     <BookOpen className="text-indigo-500 w-6 h-6" />
                                     My Courses
                                 </h2>
-                                <button className="text-sm font-bold text-indigo-400 hover:text-indigo-300 transition-colors">View All</button>
+                                <button
+                                    onClick={() => navigate('/student/my-courses')}
+                                    className="text-sm font-bold text-indigo-400 hover:text-indigo-300 transition-colors"
+                                >
+                                    View All
+                                </button>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
