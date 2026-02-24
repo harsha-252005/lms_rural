@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const StatCard = ({ title, value, icon, trend }) => {
+const StatCard = ({ title, value, icon: Icon, trend }) => {
     return (
         <motion.div
             whileHover={{ y: -5 }}
@@ -9,7 +9,7 @@ const StatCard = ({ title, value, icon, trend }) => {
         >
             <div className="relative z-10">
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 bg-slate-50">
-                    {icon}
+                    {Icon && <Icon size={24} />}
                 </div>
 
                 <h3 className="text-slate-500 text-sm font-medium mb-1">{title}</h3>

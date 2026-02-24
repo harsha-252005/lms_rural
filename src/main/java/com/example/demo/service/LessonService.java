@@ -7,7 +7,6 @@ import com.example.demo.model.Lesson;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +33,10 @@ public class LessonService {
             throw new ResourceNotFoundException("Course not found with id: " + courseId);
         }
         return lessonRepository.findByCourseIdOrderByOrderIndexAsc(courseId);
+    }
+
+    public List<Lesson> getAllLessons() {
+        return lessonRepository.findAll();
     }
 
     public Lesson getLessonById(Long lessonId) {

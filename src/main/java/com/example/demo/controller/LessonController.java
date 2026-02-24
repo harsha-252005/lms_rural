@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.ContentType;
 import com.example.demo.model.Lesson;
 import com.example.demo.service.LessonService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -20,6 +18,13 @@ import java.util.List;
 public class LessonController {
 
     private final LessonService lessonService;
+
+    @Operation(summary = "Get all lessons")
+    @GetMapping("/lessons")
+    public ResponseEntity<List<Lesson>> getAllLessons() {
+        List<Lesson> lessons = lessonService.getAllLessons();
+        return ResponseEntity.ok(lessons);
+    }
 
     @Operation(summary = "Create a new lesson for a course")
     @PostMapping("/courses/{courseId}/lessons/create")
