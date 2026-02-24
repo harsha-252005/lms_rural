@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.ContentType;
 import com.example.demo.model.Lesson;
 import com.example.demo.service.LessonService;
 import io.swagger.v3.oas.annotations.Operation;

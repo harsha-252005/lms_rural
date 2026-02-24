@@ -1,9 +1,13 @@
 import React from 'react';
 import { Bell, Search, User, LogOut } from 'lucide-react';
 
-const DashboardNavbar = ({ studentName = "Student" }) => {
+const DashboardNavbar = () => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const displayName = user.name || 'User';
+    const userRole = user.role === 'INSTRUCTOR' ? 'Instructor' : 'Student';
+
     const handleLogout = () => {
-        console.log('Logging out...');
+        localStorage.removeItem('user');
         window.location.href = '/login';
     };
 
@@ -28,8 +32,8 @@ const DashboardNavbar = ({ studentName = "Student" }) => {
 
                 <div className="flex items-center gap-4">
                     <div className="text-right hidden sm:block">
-                        <p className="text-sm font-bold text-white leading-none mb-1">{studentName}</p>
-                        <p className="text-xs text-indigo-400 font-medium">Gold Member</p>
+                        <p className="text-sm font-bold text-white leading-none mb-1">{displayName}</p>
+                        <p className="text-xs text-indigo-400 font-medium">{userRole}</p>
                     </div>
                     <div className="relative group">
                         <button className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center border-2 border-slate-800 shadow-lg">
