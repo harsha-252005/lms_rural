@@ -33,7 +33,8 @@ const StudentDashboard = () => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             try {
-                setUser(JSON.parse(storedUser));
+                const parsedUser = JSON.parse(storedUser);
+                setUser({ ...parsedUser, name: parsedUser.name || "Student" });
             } catch (e) {
                 console.error("Failed to parse user from localStorage", e);
             }

@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { PlayCircle, Clock, Star } from 'lucide-react';
+import { PlayCircle } from 'lucide-react';
 
 const CourseCard = ({ course }) => {
+    if (!course) return null;
+
     return (
         <motion.div
             whileHover={{ scale: 1.02 }}
@@ -17,7 +19,7 @@ const CourseCard = ({ course }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80"></div>
                 <div className="absolute bottom-4 left-4 right-4">
                     <div className="flex items-center gap-2 mb-2">
-                        <span className="flex items-center gap-1 text-[10px] font-bold bg-indigo-500 text-white px-2 py-1 rounded-md uppercase tracking-wider">
+                        <span className="flex items-center gap-1 text-[10px] font-bold bg-indigo-600 text-white px-2 py-1 rounded-md uppercase tracking-wider">
                             {course.category || 'Development'}
                         </span>
                     </div>

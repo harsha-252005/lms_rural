@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
+import Login from './pages/LoginV2';
 import StudentRegister from './pages/StudentRegister';
 import InstructorRegister from './pages/InstructorRegister';
 import StudentDashboard from './pages/StudentDashboard';
@@ -8,6 +8,7 @@ import InstructorDashboard from './pages/InstructorDashboard';
 import ManageCourses from './pages/ManageCourses';
 import MyCourses from './pages/MyCourses';
 
+// App component managing the main routing of the LMS
 function App() {
   return (
     <Router>

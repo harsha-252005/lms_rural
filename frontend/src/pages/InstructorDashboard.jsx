@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     Users,
     BookOpen,
     Layers,
-    GraduationCap,
     Plus,
-    ArrowRight
+    ArrowRight,
+    GraduationCap
 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import Sidebar from '../components/InstructorSidebar';
 import DashboardNavbar from '../components/DashboardNavbar';
-import Sidebar from '../components/Sidebar';
 import StatsCard from '../components/StatsCard';
 
 const InstructorDashboard = () => {
@@ -34,11 +34,11 @@ const InstructorDashboard = () => {
     ];
 
     const recentEnrollments = [
-        { id: 1, student: 'Alice Johnson', course: 'React Masterclass', date: '2024-03-20', progress: 45, status: 'Active' },
-        { id: 2, student: 'Bob Smith', course: 'Advanced Java Patterns', date: '2024-03-19', progress: 12, status: 'Active' },
-        { id: 3, student: 'Charlie Davis', course: 'Tailwind CSS Tips', date: '2024-03-18', progress: 85, status: 'Completed' },
-        { id: 4, student: 'Diana Prince', course: 'Fullstack Microservices', date: '2024-03-18', progress: 0, status: 'New' },
-        { id: 5, student: 'Ethan Hunt', course: 'React Masterclass', date: '2024-03-17', progress: 28, status: 'Active' },
+        { id: 1, student: 'Alice Johnson', course: 'Organic Farming', date: '2024-03-20', progress: 45, status: 'Active' },
+        { id: 2, student: 'Bob Smith', course: 'Solar Panel Maintenance', date: '2024-03-19', progress: 12, status: 'Active' },
+        { id: 3, student: 'Charlie Davis', course: 'Water Management', date: '2024-03-18', progress: 85, status: 'Completed' },
+        { id: 4, student: 'Diana Prince', course: 'Rural Finance', date: '2024-03-18', progress: 0, status: 'New' },
+        { id: 5, student: 'Ethan Hunt', course: 'Sustainable Farming', date: '2024-03-17', progress: 28, status: 'Active' },
     ];
 
     return (
@@ -47,7 +47,7 @@ const InstructorDashboard = () => {
                 <Sidebar />
             </div>
 
-            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto max-h-screen">
+            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto max-h-screen font-sans">
                 <DashboardNavbar studentName={user.name} />
 
                 <main className="p-8 pb-12">
@@ -60,7 +60,7 @@ const InstructorDashboard = () => {
                             </div>
                             <button
                                 onClick={() => console.log('Create New Course clicked')}
-                                className="flex items-center justify-center gap-2 bg-gradient-brand text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-indigo-200 hover:scale-105 active:scale-95 transition-all"
+                                className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all"
                             >
                                 <Plus size={20} />
                                 <span>Create New Course</span>
@@ -112,7 +112,7 @@ const InstructorDashboard = () => {
                                                             <motion.div
                                                                 initial={{ width: 0 }}
                                                                 animate={{ width: `${enrollment.progress}%` }}
-                                                                className="h-full bg-indigo-500"
+                                                                className="h-full bg-indigo-600"
                                                             />
                                                         </div>
                                                         <span className="text-xs font-bold text-slate-600">{enrollment.progress}%</span>

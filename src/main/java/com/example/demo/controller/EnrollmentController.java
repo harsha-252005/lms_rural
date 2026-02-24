@@ -55,7 +55,7 @@ public class EnrollmentController {
         return ResponseEntity.ok(enrollmentService.getAllEnrollments());
     }
 
-    @GetMapping("/student/{studentId}")
+    @GetMapping({ "/student/{studentId}", "/students/{studentId}" })
     @Operation(summary = "Get all enrollments of a student")
     public ResponseEntity<List<Enrollment>> getEnrollmentsByStudent(@PathVariable Long studentId) {
         return ResponseEntity.ok(enrollmentService.getStudentEnrollments(studentId));

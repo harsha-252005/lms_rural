@@ -109,7 +109,7 @@ const MyCourses = () => {
                                 <Search className="text-slate-500 w-8 h-8" />
                             </div>
                             <h3 className="text-2xl font-bold mb-2">No courses found</h3>
-                            <p className="text-slate-500 mb-8 max-w-xs mx-auto">You haven't enrolled in any courses yet. Start your journey today!</p>
+                            <p className="text-slate-500 mb-8 max-w-xs mx-auto">You haven&apos;t enrolled in any courses yet. Start your journey today!</p>
                             <button
                                 onClick={() => window.location.href = '/student/dashboard'}
                                 className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-8 py-3 rounded-xl transition-all shadow-xl shadow-indigo-500/20"

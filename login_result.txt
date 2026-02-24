@@ -1,0 +1,1 @@
+{"message":"Login successful for Student","id":1,"name":"Test Student","email":"curltst@student.com","role":"STUDENT"}
