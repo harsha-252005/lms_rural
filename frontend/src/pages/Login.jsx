@@ -17,36 +17,18 @@ const Login = () => {
         e.preventDefault();
         setIsLoading(true);
         try {
-            // Mocking successful login for UI demonstration
-            if (formData.email === 'student@example.com' && formData.password === 'password') {
-                localStorage.setItem('user', JSON.stringify({
-                    name: "Nidhish Rahul",
-                    role: "STUDENT"
-                }));
-                navigate('/student/dashboard');
-                return;
-            }
-
             const response = await api.post('/auth/login', formData);
-            localStorage.setItem('user', JSON.stringify(response.data));
+            const userData = response.data;
+            localStorage.setItem('user', JSON.stringify(userData));
 
-            if (formData.role === 'STUDENT') {
+            if (userData.role === 'STUDENT') {
                 navigate('/student/dashboard');
-            } else {
-                alert('Instructor Dashboard is coming soon!');
+            } else if (userData.role === 'INSTRUCTOR') {
+                navigate('/instructor/dashboard');
             }
         } catch (error) {
             console.error('Login error:', error);
-            // Fallback for demo
-            localStorage.setItem('user', JSON.stringify({
-                name: "Demo User",
-                role: formData.role
-            }));
-            if (formData.role === 'STUDENT') {
-                navigate('/student/dashboard');
-            } else {
-                alert('Login failed. Falling back to demo mode for Student only.');
-            }
+            alert(error.response?.data?.message || 'Login failed. Please check your credentials.');
         } finally {
             setIsLoading(false);
         }
