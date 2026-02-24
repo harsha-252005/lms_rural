@@ -29,8 +29,18 @@ public class Course {
 
     private String duration;
 
+    private String classLevel;
+
+    private String category;
+
+    @Column(columnDefinition = "varchar(255) default 'Draft'")
+    private String status;
+
+    private String thumbnailPath;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @JsonIgnoreProperties({"courses", "password"})
     private Instructor instructor;
 
@@ -41,13 +51,20 @@ public class Course {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({ "course" })
     @JsonIgnore
     private List<Lesson> lessons = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({ "course" })
+    private List<Video> videos = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (status == null)
+            status = "Draft";
     }
 
     @PreUpdate

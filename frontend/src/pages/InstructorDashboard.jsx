@@ -1,3 +1,5 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
@@ -15,6 +17,10 @@ import DashboardNavbar from '../components/DashboardNavbar';
 import StatsCard from '../components/StatsCard';
 
 const InstructorDashboard = () => {
+    const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userName = user.name || 'Instructor';
+    const userEmail = user.email || '';
     const [user, setUser] = useState({ name: "Instructor" });
 
     useEffect(() => {
@@ -82,6 +88,44 @@ const InstructorDashboard = () => {
     ];
 
     return (
+        <div className="flex bg-[#f8fafc] min-h-screen font-sans">
+            <InstructorSidebar />
+
+            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto max-h-screen ml-64">
+                <DashboardNavbar />
+
+                <main className="p-8 pb-12 space-y-10 max-w-7xl mx-auto w-full">
+                    <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                        >
+                            <h1 className="text-4xl font-black text-slate-800 tracking-tight">
+                                Welcome, <span className="text-indigo-600">{userName}!</span> 👋
+                            </h1>
+                            <p className="text-slate-500 mt-2 text-lg font-medium">
+                                {userEmail ? `Logged in as ${userEmail}` : 'Manage your educational content and students.'}
+                            </p>
+                        </motion.div>
+
+                        <button onClick={() => navigate('/create-course')} className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-indigo-200 hover:bg-indigo-700 transition-all flex items-center gap-2 group">
+                            <Plus size={24} className="group-hover:rotate-90 transition-transform" />
+                            <span>Create New Course</span>
+                        </button>
+                    </header>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {stats.map((stat, idx) => (
+                            <StatCard key={idx} {...stat} />
+                        ))}
+                    </div>
+
+                    <section className="space-y-6">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-2xl font-bold text-slate-800">My Recent Courses</h2>
+                            <button onClick={() => navigate('/manage-courses')} className="text-indigo-600 font-bold hover:text-indigo-700 flex items-center gap-1 transition-colors">
+                                <span>All Courses</span>
+                                <ArrowRight size={18} />
         <div className="flex bg-slate-50 min-h-screen font-sans selection:bg-indigo-500/30 overflow-hidden">
             <div className="hidden lg:block w-64">
                 <Sidebar />
