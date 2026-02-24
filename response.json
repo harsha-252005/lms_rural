@@ -1,0 +1,1 @@
+{"details":"uri=/api/courses/create-with-videos","message":"A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance: com.example.demo.model.Course.videos","timestamp":"2026-02-24T22:49:10.0466751"}

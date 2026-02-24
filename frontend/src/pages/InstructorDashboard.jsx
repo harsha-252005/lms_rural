@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
     Users,
@@ -14,6 +15,7 @@ import StatCard from '../components/StatCard';
 import InstructorCourseCard from '../components/InstructorCourseCard';
 
 const InstructorDashboard = () => {
+    const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const userName = user.name || 'Instructor';
     const userEmail = user.email || '';
@@ -50,7 +52,7 @@ const InstructorDashboard = () => {
                             </p>
                         </motion.div>
 
-                        <button className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-indigo-200 hover:bg-indigo-700 transition-all flex items-center gap-2 group">
+                        <button onClick={() => navigate('/create-course')} className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-indigo-200 hover:bg-indigo-700 transition-all flex items-center gap-2 group">
                             <Plus size={24} className="group-hover:rotate-90 transition-transform" />
                             <span>Create New Course</span>
                         </button>
@@ -65,7 +67,7 @@ const InstructorDashboard = () => {
                     <section className="space-y-6">
                         <div className="flex items-center justify-between">
                             <h2 className="text-2xl font-bold text-slate-800">My Recent Courses</h2>
-                            <button className="text-indigo-600 font-bold hover:text-indigo-700 flex items-center gap-1 transition-colors">
+                            <button onClick={() => navigate('/manage-courses')} className="text-indigo-600 font-bold hover:text-indigo-700 flex items-center gap-1 transition-colors">
                                 <span>All Courses</span>
                                 <ArrowRight size={18} />
                             </button>
