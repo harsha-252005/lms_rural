@@ -14,5 +14,11 @@ public interface InstructorService {
 
     Instructor updateInstructor(Long id, Instructor instructorDetails);
 
+    void changePassword(Long id, String oldPassword, String newPassword);
+
+    java.util.Map<String, Object> getDashboardStats(Long id);
+
+    List<com.example.demo.model.Enrollment> getEnrolledStudents(Long instructorId);
+
     void removeInstructor(Long id);
 }

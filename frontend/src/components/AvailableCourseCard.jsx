@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Clock, Star, ArrowRight } from 'lucide-react';
 
 const AvailableCourseCard = ({ course }) => {
+    const Icon = course.icon;
     return (
         <motion.div
             whileHover={{ y: -5 }}
@@ -11,7 +12,7 @@ const AvailableCourseCard = ({ course }) => {
             <div className="flex flex-col h-full">
                 <div className="flex justify-between items-start mb-4">
                     <div className={`p-3 bg-indigo-50 rounded-xl group-hover:scale-110 transition-transform ${course.color || 'text-indigo-500'}`}>
-                        {course.icon}
+                        {Icon && <Icon size={24} />}
                     </div>
                     <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-lg">
                         <Star className="w-3 h-3 text-amber-500 fill-amber-500" />

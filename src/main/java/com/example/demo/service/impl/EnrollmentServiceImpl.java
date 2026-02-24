@@ -8,6 +8,7 @@ import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.EnrollmentRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.EnrollmentService;
+import com.example.demo.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
+    private final NotificationService notificationService;
 
     @Override
     public Enrollment enrollStudent(Long studentId, Long courseId) {
@@ -38,8 +40,15 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         enrollment.setProgressPercentage(0.0);
         enrollment.setStatus("ENROLLED");
         // date set by @PrePersist
+        Enrollment savedEnrollment = enrollmentRepository.save(enrollment);
 
-        return enrollmentRepository.save(enrollment);
+        // Create notification for instructor
+        if (course.getInstructor() != null) {
+            String message = String.format("New student %s has enrolled in your course: %s", student.getName(), course.getTitle());
+            notificationService.createNotification(course.getInstructor().getId(), message, "ENROLLMENT");
+        }
+
+        return savedEnrollment;
     }
 
     @Override
