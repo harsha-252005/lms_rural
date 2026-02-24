@@ -1,0 +1,47 @@
+package com.example.demo.controller;
+
+import com.example.demo.model.Notification;
+import com.example.demo.service.NotificationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/notifications")
+@RequiredArgsConstructor
+@Tag(name = "Notification Management", description = "Endpoints for managing user notifications")
+@CrossOrigin(origins = "http://localhost:5173")
+public class NotificationController {
+
+    private final NotificationService notificationService;
+
+    @GetMapping("/user/{userId}")
+    @Operation(summary = "Get all notifications for a user")
+    public ResponseEntity<List<Notification>> getUserNotifications(@PathVariable Long userId) {
+        return ResponseEntity.ok(notificationService.getUserNotifications(userId));
+    }
+
+    @GetMapping("/user/{userId}/unread-count")
+    @Operation(summary = "Get unread notifications count for a user")
+    public ResponseEntity<Long> getUnreadCount(@PathVariable Long userId) {
+        return ResponseEntity.ok(notificationService.getUnreadCount(userId));
+    }
+
+    @PutMapping("/{id}/read")
+    @Operation(summary = "Mark a notification as read")
+    public ResponseEntity<Void> markAsRead(@PathVariable Long id) {
+        notificationService.markAsRead(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/user/{userId}/read-all")
+    @Operation(summary = "Mark all notifications for a user as read")
+    public ResponseEntity<Void> markAllAsRead(@PathVariable Long userId) {
+        notificationService.markAllAsRead(userId);
+        return ResponseEntity.ok().build();
+    }
+}
