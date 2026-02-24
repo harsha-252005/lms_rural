@@ -14,13 +14,12 @@ const Sidebar = () => {
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/student/dashboard' },
         { icon: BookOpen, label: 'My Courses', path: '/student/my-courses' },
-        { icon: Search, label: 'Browse Courses', path: '/student/browse' },
-        { icon: ClipboardList, label: 'Tests', path: '/student/tests' },
-        { icon: User, label: 'Profile', path: '/student/profile' },
+        { icon: Search, label: 'Browse Courses', path: '/ student/dashboard' }, // Adjusted path for placeholder
+        { icon: ClipboardList, label: 'Tests', path: '/student/dashboard' }, // Adjusted path for placeholder
+        { icon: User, label: 'Profile', path: '/student/dashboard' }, // Adjusted path for placeholder
     ];
 
     const handleLogout = () => {
-        console.log('Logging out...');
         localStorage.removeItem('user');
         window.location.href = '/login';
     };

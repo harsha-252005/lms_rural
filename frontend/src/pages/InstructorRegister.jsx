@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Mail, Lock, Briefcase, UserPlus, Trophy, Star } from 'lucide-react';
+import { User, Mail, Lock, Briefcase, UserPlus, ArrowRight } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../utils/api';
 import Layout from '../components/Layout';
@@ -13,48 +13,48 @@ const InstructorRegister = () => {
         password: '',
         specialization: '',
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
-            const response = await api.post('/auth/register/instructor', formData);
-            alert(response.data);
+            await api.post('/auth/register/instructor', formData);
+            alert('Instructor registration successful! Please login.');
             navigate('/login');
         } catch (error) {
-            alert(error.response?.data || 'Failed to join as instructor.');
+            console.error('Registration error:', error);
+            alert(error.response?.data?.message || 'Registration failed');
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
         <Layout>
             <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="w-full max-w-lg glass-card p-12 rounded-[3rem] border-purple-500/20 relative"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden group"
             >
-                <div className="absolute top-6 left-6 text-purple-400/20">
-                    <Star className="w-8 h-8 animate-pulse" />
-                </div>
-
-                <div className="text-center mb-10">
-                    <div className="inline-block p-4 bg-purple-500/10 rounded-[2rem] mb-6">
-                        <Trophy className="w-12 h-12 text-purple-400" />
+                <div className="mb-8">
+                    <div className="bg-purple-500/20 w-12 h-12 rounded-2xl flex items-center justify-center mb-4">
+                        <UserPlus className="text-purple-400" />
                     </div>
-                    <h2 className="text-4xl font-black text-white">
-                        Share Your <span className="text-purple-400">Expertise</span>
-                    </h2>
-                    <p className="text-white/40 mt-3 font-medium">Empower rural talent with your knowledge</p>
+                    <h2 className="text-3xl font-black text-white mb-2">Instructor <span className="text-purple-400">Signup</span></h2>
+                    <p className="text-slate-400">Share your expertise with the world.</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="relative group">
                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-purple-400 transition-colors" />
                         <input
                             type="text"
-                            placeholder="Full Professional Name"
+                            placeholder="Full Name"
                             required
-                            className="input-glass w-full border-purple-500/10"
+                            value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-purple-500/50 transition-all"
                         />
                     </div>
 
@@ -64,19 +64,9 @@ const InstructorRegister = () => {
                             type="email"
                             placeholder="Work Email"
                             required
-                            className="input-glass w-full border-purple-500/10"
+                            value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        />
-                    </div>
-
-                    <div className="relative group">
-                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-purple-400 transition-colors" />
-                        <input
-                            type="password"
-                            placeholder="Secure Password"
-                            required
-                            className="input-glass w-full border-purple-500/10"
-                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-purple-500/50 transition-all"
                         />
                     </div>
 
@@ -84,22 +74,47 @@ const InstructorRegister = () => {
                         <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-purple-400 transition-colors" />
                         <input
                             type="text"
-                            placeholder="Your Specialization (e.g. Science, Coding)"
-                            className="input-glass w-full border-purple-500/10"
+                            placeholder="Specialization (e.g. Science, Art)"
+                            required
+                            value={formData.specialization}
                             onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
+                            className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-purple-500/50 transition-all"
                         />
                     </div>
 
-                    <button type="submit" className="btn-primary w-full bg-gradient-to-r from-purple-500 to-indigo-500 shadow-purple-500/20">
-                        <UserPlus className="w-6 h-6" />
-                        Apply as Instructor
+                    <div className="relative group">
+                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-purple-400 transition-colors" />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            required
+                            value={formData.password}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-purple-500/50 transition-all"
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-purple-600 hover:bg-purple-500 disabled:bg-purple-800 text-white font-bold py-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2 group"
+                    >
+                        {isLoading ? 'Creating Account...' : (
+                            <>
+                                <span>Join Faculty</span>
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </>
+                        )}
                     </button>
                 </form>
 
                 <div className="mt-8 text-center">
-                    <Link to="/login" className="text-white/40 hover:text-white transition-colors text-sm font-medium">
-                        Already have an instructor account? <span className="text-purple-400 font-bold">Log in</span>
-                    </Link>
+                    <p className="text-slate-400">
+                        Already have an account? {' '}
+                        <button onClick={() => navigate('/login')} className="text-purple-400 font-bold hover:underline">
+                            Log in
+                        </button>
+                    </p>
                 </div>
             </motion.div>
         </Layout>

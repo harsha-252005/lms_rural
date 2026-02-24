@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080/api', // Spring Boot base URL
+    baseURL: '/api', // Uses Vite proxy in development
     headers: {
         'Content-Type': 'application/json',
     },
