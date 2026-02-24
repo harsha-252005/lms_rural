@@ -5,6 +5,8 @@ import StudentRegister from './pages/StudentRegister';
 import InstructorRegister from './pages/InstructorRegister';
 import StudentDashboard from './pages/StudentDashboard';
 import InstructorDashboard from './pages/InstructorDashboard';
+import InstructorSettings from './pages/InstructorSettings';
+import InstructorStudents from './pages/InstructorStudents';
 import ManageCourses from './pages/ManageCourses';
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
                 <Route path="/register/instructor" element={<InstructorRegister />} />
                 <Route path="/student/dashboard" element={<StudentDashboard />} />
                 <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
+                <Route path="/instructor/settings" element={<InstructorSettings />} />
+                <Route path="/instructor/students" element={<InstructorStudents />} />
                 <Route path="/manage-courses" element={<ManageCourses />} />
                 <Route path="/" element={<Navigate to="/login" replace />} />
             </Routes>

@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,10 +22,12 @@ public class Enrollment {
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
+    @JsonIgnoreProperties({"password"})
     private Student student;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @JsonIgnoreProperties({"lessons", "instructor"})
     private Course course;
 
     @Column(name = "enrollment_date", nullable = false, updatable = false)
@@ -56,3 +59,4 @@ public class Enrollment {
         updatedAt = LocalDateTime.now();
     }
 }
+
