@@ -47,10 +47,9 @@ public class StudentController {
         return ResponseEntity.ok(studentService.updateStudent(id, student));
     }
 
-    // @DeleteMapping("/{id}")
-    // @Operation(summary = "Remove Student")
-    // public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
-    // studentService.deleteStudent(id);
-    // return ResponseEntity.noContent().build();
-    // }
+    @GetMapping("/{id}/my-courses")
+    @Operation(summary = "Get Enrolled Courses for a Student")
+    public ResponseEntity<List<com.example.demo.dto.StudentCourseResponse>> getEnrolledCourses(@PathVariable Long id) {
+        return ResponseEntity.ok(studentService.getEnrolledCourses(id));
+    }
 }

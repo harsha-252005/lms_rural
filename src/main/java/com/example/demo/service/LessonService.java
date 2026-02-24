@@ -7,7 +7,6 @@ import com.example.demo.model.Lesson;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

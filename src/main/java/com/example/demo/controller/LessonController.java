@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.ContentType;
 import com.example.demo.model.Lesson;
 import com.example.demo.service.LessonService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
