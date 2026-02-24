@@ -35,6 +35,10 @@ public class LessonService {
         return lessonRepository.findByCourseIdOrderByOrderIndexAsc(courseId);
     }
 
+    public List<Lesson> getAllLessons() {
+        return lessonRepository.findAll();
+    }
+
     public Lesson getLessonById(Long lessonId) {
         return lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found with id: " + lessonId));

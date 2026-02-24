@@ -19,6 +19,13 @@ public class LessonController {
 
     private final LessonService lessonService;
 
+    @Operation(summary = "Get all lessons")
+    @GetMapping("/lessons")
+    public ResponseEntity<List<Lesson>> getAllLessons() {
+        List<Lesson> lessons = lessonService.getAllLessons();
+        return ResponseEntity.ok(lessons);
+    }
+
     @Operation(summary = "Create a new lesson for a course")
     @PostMapping("/courses/{courseId}/lessons/create")
     public ResponseEntity<Lesson> createLesson(@PathVariable Long courseId, @Valid @RequestBody Lesson lesson) {
