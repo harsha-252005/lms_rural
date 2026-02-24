@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 import {
     Users,
     BookOpen,
@@ -18,16 +19,44 @@ const InstructorDashboard = () => {
     const userName = user.name || 'Instructor';
     const userEmail = user.email || '';
 
-    const stats = [
-        { title: 'Total Students', value: '1,284', icon: <Users className="text-blue-500" />, trend: '+12% this month' },
-        { title: 'Active Courses', value: '8', icon: <BookOpen className="text-emerald-500" />, trend: '2 in draft' },
-        { title: 'Total Revenue', value: '₹42,500', icon: <Layers className="text-purple-500" />, trend: '+₹5.2k this month' }
-    ];
+    const [stats, setStats] = useState([
+        { title: 'Total Students', value: '0', icon: <Users className="text-blue-500" />, trend: 'Live data' },
+        { title: 'Active Courses', value: '0', icon: <BookOpen className="text-emerald-500" />, trend: 'Live data' },
+        { title: 'Total Revenue', value: '₹0', icon: <Layers className="text-purple-500" />, trend: 'Calculated' }
+    ]);
 
-    const recentCourses = [
-        { id: 1, title: 'Organic Farming Fundamentals', students: 450, status: 'Published', rating: 4.8 },
-        { id: 2, title: 'Solar Panel Maintenance', students: 120, status: 'Draft', rating: 0 }
-    ];
+    const [recentCourses, setRecentCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDashboardData = async () => {
+            try {
+                // Fetch stats
+                const statsResponse = await axios.get(`http://localhost:8080/api/instructors/${user.id}/dashboard-stats`);
+                const { totalCourses, totalStudents } = statsResponse.data;
+
+                // Fetch recent courses
+                const coursesResponse = await axios.get(`http://localhost:8080/api/courses/instructor/${user.id}`);
+                const courses = coursesResponse.data;
+
+                setStats([
+                    { title: 'Total Students', value: totalStudents.toLocaleString(), icon: <Users className="text-blue-500" />, trend: 'Enrolled across all courses' },
+                    { title: 'Active Courses', value: totalCourses.toString(), icon: <BookOpen className="text-emerald-500" />, trend: 'Created by you' },
+                    { title: 'Total Revenue', value: `₹${(totalStudents * 100).toLocaleString()}`, icon: <Layers className="text-purple-500" />, trend: 'Estimated earnings' }
+                ]);
+
+                setRecentCourses(courses.slice(0, 4)); // Show top 4 recent
+            } catch (error) {
+                console.error('Error fetching dashboard data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (user.id) {
+            fetchDashboardData();
+        }
+    }, [user.id]);
 
     return (
         <div className="flex bg-[#f8fafc] min-h-screen font-sans">
@@ -71,9 +100,15 @@ const InstructorDashboard = () => {
                             </button>
                         </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            {recentCourses.map(course => (
-                                <InstructorCourseCard key={course.id} course={course} />
-                            ))}
+                            {recentCourses.length > 0 ? (
+                                recentCourses.map(course => (
+                                    <InstructorCourseCard key={course.id} course={course} />
+                                ))
+                            ) : (
+                                <div className="col-span-full bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl p-12 text-center">
+                                    <p className="text-slate-500 font-medium">You haven't created any courses yet.</p>
+                                </div>
+                            )}
                         </div>
                     </section>
 
