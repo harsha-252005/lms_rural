@@ -14,7 +14,7 @@ const InstructorSidebar = () => {
     const menuItems = [
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/instructor/dashboard' },
         { icon: <BookOpen size={20} />, label: 'Manage Courses', path: '/manage-courses' },
-        { icon: <PlusCircle size={20} />, label: 'Create Course', path: '/instructor/create-course' },
+        { icon: <PlusCircle size={20} />, label: 'Create Course', path: '/create-course' },
         { icon: <Users size={20} />, label: 'Students', path: '/instructor/students' },
         { icon: <Settings size={20} />, label: 'Settings', path: '/instructor/settings' },
     ];

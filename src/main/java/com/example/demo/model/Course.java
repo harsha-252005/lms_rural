@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -28,8 +29,18 @@ public class Course {
 
     private String duration;
 
+    private String classLevel;
+
+    private String category;
+
+    @Column(columnDefinition = "varchar(255) default 'Draft'")
+    private String status;
+
+    private String thumbnailPath;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private Instructor instructor;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -39,12 +50,19 @@ public class Course {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({ "course" })
     private List<Lesson> lessons = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({ "course" })
+    private List<Video> videos = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (status == null)
+            status = "Draft";
     }
 
     @PreUpdate
