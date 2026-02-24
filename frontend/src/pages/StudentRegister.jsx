@@ -13,6 +13,7 @@ const StudentRegister = () => {
         password: '',
         confirmPassword: '',
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,58 +21,64 @@ const StudentRegister = () => {
             alert("Passwords don't match!");
             return;
         }
+        setIsLoading(true);
         try {
-            const response = await api.post('/auth/register/student', {
+            await api.post('/auth/register/student', {
                 name: formData.name,
                 email: formData.email,
                 password: formData.password
             });
-            alert(response.data);
+            alert('Registration successful! Please login.');
             navigate('/login');
         } catch (error) {
-            alert(error.response?.data || 'Registration failed.');
+            console.error('Registration error:', error);
+            alert(error.response?.data?.message || 'Registration failed');
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
         <Layout>
             <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="w-full max-w-lg glass-card p-12 rounded-[3rem] overflow-hidden relative"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden group"
             >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-mint-breeze/20 blur-3xl -mr-16 -mt-16"></div>
-
-                <div className="flex flex-col items-center mb-10">
-                    <div className="w-20 h-20 bg-indigo-500/10 rounded-3xl flex items-center justify-center mb-6 ring-1 ring-white/10">
-                        <Rocket className="w-10 h-10 text-indigo-400" />
-                    </div>
-                    <h2 className="text-4xl font-black text-white text-center">
-                        Ignite Your <span className="text-indigo-400">Future</span>
-                    </h2>
-                    <p className="text-white/40 mt-3 font-medium">Join 5000+ rural students learning today</p>
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Rocket size={80} className="text-indigo-400 -rotate-12" />
                 </div>
 
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="relative group md:col-span-2">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-mint-breeze transition-colors" />
+                <div className="mb-8">
+                    <div className="bg-indigo-500/20 w-12 h-12 rounded-2xl flex items-center justify-center mb-4">
+                        <UserPlus className="text-indigo-400" />
+                    </div>
+                    <h2 className="text-3xl font-black text-white mb-2">Join as <span className="text-indigo-400">Student</span></h2>
+                    <p className="text-slate-400">Start your learning journey today.</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="relative group">
+                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-indigo-400 transition-colors" />
                         <input
                             type="text"
-                            placeholder="What's your full name?"
+                            placeholder="Full Name"
                             required
-                            className="input-glass w-full border-white/5"
+                            value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-indigo-500/50 transition-all"
                         />
                     </div>
 
-                    <div className="relative group md:col-span-2">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-mint-breeze transition-colors" />
+                    <div className="relative group">
+                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-indigo-400 transition-colors" />
                         <input
                             type="email"
-                            placeholder="Your primary email"
+                            placeholder="Email Address"
                             required
-                            className="input-glass w-full border-white/5"
+                            value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-indigo-500/50 transition-all"
                         />
                     </div>
 
@@ -79,10 +86,11 @@ const StudentRegister = () => {
                         <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-indigo-400 transition-colors" />
                         <input
                             type="password"
-                            placeholder="Create Password"
+                            placeholder="Password"
                             required
-                            className="input-glass w-full border-white/5"
+                            value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-indigo-500/50 transition-all"
                         />
                     </div>
 
@@ -90,30 +98,34 @@ const StudentRegister = () => {
                         <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-indigo-400 transition-colors" />
                         <input
                             type="password"
-                            placeholder="Repeat Password"
+                            placeholder="Confirm Password"
                             required
-                            className="input-glass w-full border-white/5"
+                            value={formData.confirmPassword}
                             onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                            className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-indigo-500/50 transition-all"
                         />
                     </div>
 
-                    <div className="md:col-span-2 pt-4">
-                        <button type="submit" className="btn-primary w-full py-5 group">
-                            <span className="text-lg">Register as a Learner</span>
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                        </button>
-                    </div>
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-800 text-white font-bold py-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2 group"
+                    >
+                        {isLoading ? 'Creating Account...' : (
+                            <>
+                                <span>Register Now</span>
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </>
+                        )}
+                    </button>
                 </form>
 
-                <div className="mt-8 text-center space-y-3">
-                    <p className="text-white/30 text-sm">
-                        Already registered? {' '}
-                        <Link to="/login" className="text-indigo-400 font-bold hover:underline">Log in here</Link>
-                    </p>
-                    <div className="h-px bg-white/5 w-1/2 mx-auto"></div>
-                    <p className="text-white/20 text-xs italic">
-                        Teaching something? {' '}
-                        <Link to="/register/instructor" className="text-purple-400 hover:text-purple-300 font-bold">Register as Instructor</Link>
+                <div className="mt-8 text-center">
+                    <p className="text-slate-400">
+                        Interested in teaching? {' '}
+                        <Link to="/register/instructor" className="text-indigo-400 font-bold hover:underline">
+                            Register as Instructor
+                        </Link>
                     </p>
                 </div>
             </motion.div>

@@ -51,10 +51,4 @@ public class Course {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Lesson> lessons = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instructor_id")
-    private Instructor instructor;
 }

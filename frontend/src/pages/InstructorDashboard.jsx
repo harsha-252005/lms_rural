@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import {
     Users,
@@ -7,105 +8,91 @@ import {
     Plus,
     ArrowRight
 } from 'lucide-react';
-import StatsCard from '../components/StatsCard';
+import InstructorSidebar from '../components/InstructorSidebar';
+import DashboardNavbar from '../components/DashboardNavbar';
+import StatCard from '../components/StatCard';
+import InstructorCourseCard from '../components/InstructorCourseCard';
 
 const InstructorDashboard = () => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userName = user.name || 'Instructor';
+    const userEmail = user.email || '';
+
     const stats = [
-        { title: 'Total Courses', value: '12', description: 'from 10 last month', icon: BookOpen, trend: 20 },
-        { title: 'Total Students', value: '1,284', description: 'from 1,100 last month', icon: Users, trend: 16.7 },
-        { title: 'Active Courses', value: '8', description: 'currently live', icon: Layers, trend: 5 },
-        { title: 'Total Lessons', value: '420', description: 'across all courses', icon: GraduationCap, trend: 12.5 },
+        { title: 'Total Students', value: '1,284', icon: <Users className="text-blue-500" />, trend: '+12% this month' },
+        { title: 'Active Courses', value: '8', icon: <BookOpen className="text-emerald-500" />, trend: '2 in draft' },
+        { title: 'Total Revenue', value: '₹42,500', icon: <Layers className="text-purple-500" />, trend: '+₹5.2k this month' }
     ];
 
-    const recentEnrollments = [
-        { id: 1, student: 'Alice Johnson', course: 'React Masterclass', date: '2024-03-20', progress: 45, status: 'Active' },
-        { id: 2, student: 'Bob Smith', course: 'Advanced Java Patterns', date: '2024-03-19', progress: 12, status: 'Active' },
-        { id: 3, student: 'Charlie Davis', course: 'Tailwind CSS Tips', date: '2024-03-18', progress: 85, status: 'Completed' },
-        { id: 4, student: 'Diana Prince', course: 'Fullstack Microservices', date: '2024-03-18', progress: 0, status: 'New' },
-        { id: 5, student: 'Ethan Hunt', course: 'React Masterclass', date: '2024-03-17', progress: 28, status: 'Active' },
+    const recentCourses = [
+        { id: 1, title: 'Organic Farming Fundamentals', students: 450, status: 'Published', rating: 4.8 },
+        { id: 2, title: 'Solar Panel Maintenance', students: 120, status: 'Draft', rating: 0 }
     ];
 
     return (
-        <div className="space-y-8 max-w-7xl mx-auto">
-            {/* Welcome Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h1 className="text-3xl font-bold text-slate-800">Welcome back, Instructor 👋</h1>
-                    <p className="text-slate-500 mt-1 text-lg">Manage your courses and track student progress with ease.</p>
-                </div>
-                <button
-                    onClick={() => console.log('Create New Course clicked')}
-                    className="flex items-center justify-center gap-2 bg-gradient-brand text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-indigo-200 hover:scale-105 active:scale-95 transition-all"
-                >
-                    <Plus size={20} />
-                    <span>Create New Course</span>
-                </button>
-            </div>
+        <div className="flex bg-[#f8fafc] min-h-screen font-sans">
+            <InstructorSidebar />
 
-            {/* Analytics Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {stats.map((stat, idx) => (
-                    <StatsCard key={idx} {...stat} />
-                ))}
-            </div>
+            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto max-h-screen ml-64">
+                <DashboardNavbar />
 
-            {/* Recent Enrollments Section */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
-                    <h3 className="text-lg font-bold text-slate-800">Recent Enrollments</h3>
-                    <button className="text-indigo-600 hover:text-indigo-700 text-sm font-semibold flex items-center gap-1 group">
-                        View All <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </button>
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                        <thead>
-                            <tr className="bg-slate-50 border-b border-slate-100">
-                                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Student Name</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Course Name</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Enrollment Date</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Progress</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100">
-                            {recentEnrollments.map((enrollment) => (
-                                <tr key={enrollment.id} className="hover:bg-slate-50/50 transition-colors">
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold">
-                                                {enrollment.student.split(' ').map(n => n[0]).join('')}
-                                            </div>
-                                            <span className="font-semibold text-slate-700">{enrollment.student}</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-slate-600">{enrollment.course}</td>
-                                    <td className="px-6 py-4 text-slate-500">{enrollment.date}</td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
-                                                <motion.div
-                                                    initial={{ width: 0 }}
-                                                    animate={{ width: `${enrollment.progress}%` }}
-                                                    className="h-full bg-indigo-500"
-                                                />
-                                            </div>
-                                            <span className="text-xs font-bold text-slate-600">{enrollment.progress}%</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${enrollment.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' :
-                                                enrollment.status === 'New' ? 'bg-blue-100 text-blue-700' :
-                                                    'bg-amber-100 text-amber-700'
-                                            }`}>
-                                            {enrollment.status}
-                                        </span>
-                                    </td>
-                                </tr>
+                <main className="p-8 pb-12 space-y-10 max-w-7xl mx-auto w-full">
+                    <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                        >
+                            <h1 className="text-4xl font-black text-slate-800 tracking-tight">
+                                Welcome, <span className="text-indigo-600">{userName}!</span> 👋
+                            </h1>
+                            <p className="text-slate-500 mt-2 text-lg font-medium">
+                                {userEmail ? `Logged in as ${userEmail}` : 'Manage your educational content and students.'}
+                            </p>
+                        </motion.div>
+
+                        <button className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-indigo-200 hover:bg-indigo-700 transition-all flex items-center gap-2 group">
+                            <Plus size={24} className="group-hover:rotate-90 transition-transform" />
+                            <span>Create New Course</span>
+                        </button>
+                    </header>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {stats.map((stat, idx) => (
+                            <StatCard key={idx} {...stat} />
+                        ))}
+                    </div>
+
+                    <section className="space-y-6">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-2xl font-bold text-slate-800">My Recent Courses</h2>
+                            <button className="text-indigo-600 font-bold hover:text-indigo-700 flex items-center gap-1 transition-colors">
+                                <span>All Courses</span>
+                                <ArrowRight size={18} />
+                            </button>
+                        </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            {recentCourses.map(course => (
+                                <InstructorCourseCard key={course.id} course={course} />
                             ))}
-                        </tbody>
-                    </table>
-                </div>
+                        </div>
+                    </section>
+
+                    <section className="bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-sm relative overflow-hidden">
+                        <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                            <div className="bg-indigo-50 p-6 rounded-3xl">
+                                <GraduationCap size={48} className="text-indigo-600" />
+                            </div>
+                            <div className="flex-1 text-center md:text-left">
+                                <h3 className="text-2xl font-bold text-slate-800 mb-2">Want to reach more rural students?</h3>
+                                <p className="text-slate-500 max-w-lg">Our AI can help you translate your course into 12 local Indian languages for free. Expand your impact today.</p>
+                            </div>
+                            <button className="bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all whitespace-nowrap">
+                                Get Started
+                            </button>
+                        </div>
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50/50 rounded-full blur-3xl -mr-32 -mt-32"></div>
+                    </section>
+                </main>
             </div>
         </div>
     );
