@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/activity-logs")
-@CrossOrigin(origins = "*")
 @Tag(name = "Activity Log Controller", description = "Operations related to user activity tracking")
 @RequiredArgsConstructor
 public class ActivityLogController {

@@ -36,6 +36,8 @@ public class Student {
     @NotBlank(message = "Password is required")
     private String password;
 
+    private String classLevel;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

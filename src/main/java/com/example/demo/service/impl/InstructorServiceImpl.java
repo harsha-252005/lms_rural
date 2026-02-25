@@ -104,4 +104,15 @@ public class InstructorServiceImpl implements InstructorService {
         }
         instructorRepository.deleteById(id);
     }
+
+    @Override
+    public List<com.example.demo.model.Course> getCoursesByInstructor(Long instructorId) {
+        System.out.println("DEBUG_INSTRUCTOR_SERVICE: Fetching courses for instructorId=" + instructorId);
+        if (!instructorRepository.existsById(instructorId)) {
+            throw new ResourceNotFoundException("Instructor not found with id " + instructorId);
+        }
+        List<com.example.demo.model.Course> courses = courseRepository.findByInstructorId(instructorId);
+        System.out.println("DEBUG_INSTRUCTOR_SERVICE: Found " + courses.size() + " courses for instructorId=" + instructorId);
+        return courses;
+    }
 }

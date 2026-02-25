@@ -1,8 +1,6 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import axios from 'axios';
 import {
     Users,
     BookOpen,
@@ -11,67 +9,26 @@ import {
     ArrowRight,
     GraduationCap
 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/InstructorSidebar';
+import InstructorSidebar from '../components/InstructorSidebar';
 import DashboardNavbar from '../components/DashboardNavbar';
 import StatsCard from '../components/StatsCard';
 
 const InstructorDashboard = () => {
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const userName = user.name || 'Instructor';
-    const userEmail = user.email || '';
-    const [user, setUser] = useState({ name: "Instructor" });
+    const [user, setUser] = useState({ name: 'Instructor' });
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             try {
-                setUser(JSON.parse(storedUser));
+                const parsedUser = JSON.parse(storedUser);
+                setUser({ ...parsedUser, name: parsedUser.name || 'Instructor' });
             } catch (e) {
-                console.error("Failed to parse user from localStorage", e);
+                console.error('Failed to parse user from localStorage', e);
             }
         }
     }, []);
 
-    const [stats, setStats] = useState([
-        { title: 'Total Students', value: '0', icon: <Users className="text-blue-500" />, trend: 'Live data' },
-        { title: 'Active Courses', value: '0', icon: <BookOpen className="text-emerald-500" />, trend: 'Live data' },
-        { title: 'Total Revenue', value: '₹0', icon: <Layers className="text-purple-500" />, trend: 'Calculated' }
-    ]);
-
-    const [recentCourses, setRecentCourses] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchDashboardData = async () => {
-            try {
-                // Fetch stats
-                const statsResponse = await axios.get(`http://localhost:8080/api/instructors/${user.id}/dashboard-stats`);
-                const { totalCourses, totalStudents } = statsResponse.data;
-
-                // Fetch recent courses
-                const coursesResponse = await axios.get(`http://localhost:8080/api/courses/instructor/${user.id}`);
-                const courses = coursesResponse.data;
-
-                setStats([
-                    { title: 'Total Students', value: totalStudents.toLocaleString(), icon: <Users className="text-blue-500" />, trend: 'Enrolled across all courses' },
-                    { title: 'Active Courses', value: totalCourses.toString(), icon: <BookOpen className="text-emerald-500" />, trend: 'Created by you' },
-                    { title: 'Total Revenue', value: `₹${(totalStudents * 100).toLocaleString()}`, icon: <Layers className="text-purple-500" />, trend: 'Estimated earnings' }
-                ]);
-
-                setRecentCourses(courses.slice(0, 4)); // Show top 4 recent
-            } catch (error) {
-                console.error('Error fetching dashboard data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (user.id) {
-            fetchDashboardData();
-        }
-    }, [user.id]);
     const stats = [
         { title: 'Total Courses', value: '12', description: 'from 10 last month', icon: BookOpen, trend: 20 },
         { title: 'Total Students', value: '1,284', description: 'from 1,100 last month', icon: Users, trend: 16.7 },
@@ -92,7 +49,7 @@ const InstructorDashboard = () => {
             <InstructorSidebar />
 
             <div className="flex-1 flex flex-col min-w-0 overflow-y-auto max-h-screen ml-64">
-                <DashboardNavbar />
+                <DashboardNavbar studentName={user.name} />
 
                 <main className="p-8 pb-12 space-y-10 max-w-7xl mx-auto w-full">
                     <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -101,10 +58,10 @@ const InstructorDashboard = () => {
                             animate={{ opacity: 1, x: 0 }}
                         >
                             <h1 className="text-4xl font-black text-slate-800 tracking-tight">
-                                Welcome, <span className="text-indigo-600">{userName}!</span> 👋
+                                Welcome, <span className="text-indigo-600">{user.name}!</span> 👋
                             </h1>
                             <p className="text-slate-500 mt-2 text-lg font-medium">
-                                {userEmail ? `Logged in as ${userEmail}` : 'Manage your educational content and students.'}
+                                {user.email ? `Logged in as ${user.email}` : 'Manage your educational content and students.'}
                             </p>
                         </motion.div>
 
@@ -114,117 +71,69 @@ const InstructorDashboard = () => {
                         </button>
                     </header>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Analytics Cards Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {stats.map((stat, idx) => (
-                            <StatCard key={idx} {...stat} />
+                            <StatsCard key={idx} {...stat} />
                         ))}
                     </div>
 
-                    <section className="space-y-6">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-2xl font-bold text-slate-800">My Recent Courses</h2>
-                            <button onClick={() => navigate('/manage-courses')} className="text-indigo-600 font-bold hover:text-indigo-700 flex items-center gap-1 transition-colors">
-                                <span>All Courses</span>
-                                <ArrowRight size={18} />
-        <div className="flex bg-slate-50 min-h-screen font-sans selection:bg-indigo-500/30 overflow-hidden">
-            <div className="hidden lg:block w-64">
-                <Sidebar />
-            </div>
-
-            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto max-h-screen font-sans">
-                <DashboardNavbar studentName={user.name} />
-
-                <main className="p-8 pb-12">
-                    <div className="space-y-8 max-w-7xl mx-auto">
-                        {/* Welcome Section */}
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div>
-                                <h1 className="text-3xl font-bold text-slate-800">Welcome back, {user.name} 👋</h1>
-                                <p className="text-slate-500 mt-1 text-lg">Manage your courses and track student progress with ease.</p>
-                            </div>
-                            <button
-                                onClick={() => console.log('Create New Course clicked')}
-                                className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all"
-                            >
-                                <Plus size={20} />
-                                <span>Create New Course</span>
+                    {/* Recent Enrollments Section */}
+                    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+                            <h3 className="text-lg font-bold text-slate-800">Recent Enrollments</h3>
+                            <button className="text-indigo-600 hover:text-indigo-700 text-sm font-semibold flex items-center gap-1 group">
+                                View All <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                             </button>
                         </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            {recentCourses.length > 0 ? (
-                                recentCourses.map(course => (
-                                    <InstructorCourseCard key={course.id} course={course} />
-                                ))
-                            ) : (
-                                <div className="col-span-full bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl p-12 text-center">
-                                    <p className="text-slate-500 font-medium">You haven't created any courses yet.</p>
-                                </div>
-                            )}
-
-                        {/* Analytics Cards Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {stats.map((stat, idx) => (
-                                <StatsCard key={idx} {...stat} />
-                            ))}
-                        </div>
-
-                        {/* Recent Enrollments Section */}
-                        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                            <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
-                                <h3 className="text-lg font-bold text-slate-800">Recent Enrollments</h3>
-                                <button className="text-indigo-600 hover:text-indigo-700 text-sm font-semibold flex items-center gap-1 group">
-                                    View All <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            </div>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left">
-                                    <thead>
-                                        <tr className="bg-slate-50 border-b border-slate-100">
-                                            <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Student Name</th>
-                                            <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Course Name</th>
-                                            <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Enrollment Date</th>
-                                            <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Progress</th>
-                                            <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead>
+                                    <tr className="bg-slate-50 border-b border-slate-100">
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Student Name</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Course Name</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Enrollment Date</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Progress</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100">
+                                    {recentEnrollments.map((enrollment) => (
+                                        <tr key={enrollment.id} className="hover:bg-slate-50/50 transition-colors">
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold">
+                                                        {enrollment.student.split(' ').map(n => n[0]).join('')}
+                                                    </div>
+                                                    <span className="font-semibold text-slate-700">{enrollment.student}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 text-slate-600">{enrollment.course}</td>
+                                            <td className="px-6 py-4 text-slate-500">{enrollment.date}</td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
+                                                        <motion.div
+                                                            initial={{ width: 0 }}
+                                                            animate={{ width: `${enrollment.progress}%` }}
+                                                            className="h-full bg-indigo-600"
+                                                        />
+                                                    </div>
+                                                    <span className="text-xs font-bold text-slate-600">{enrollment.progress}%</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${enrollment.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' :
+                                                    enrollment.status === 'New' ? 'bg-blue-100 text-blue-700' :
+                                                        'bg-amber-100 text-amber-700'
+                                                    }`}>
+                                                    {enrollment.status}
+                                                </span>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-slate-100">
-                                        {recentEnrollments.map((enrollment) => (
-                                            <tr key={enrollment.id} className="hover:bg-slate-50/50 transition-colors">
-                                                <td className="px-6 py-4">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold">
-                                                            {enrollment.student.split(' ').map(n => n[0]).join('')}
-                                                        </div>
-                                                        <span className="font-semibold text-slate-700">{enrollment.student}</span>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4 text-slate-600">{enrollment.course}</td>
-                                                <td className="px-6 py-4 text-slate-500">{enrollment.date}</td>
-                                                <td className="px-6 py-4">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
-                                                            <motion.div
-                                                                initial={{ width: 0 }}
-                                                                animate={{ width: `${enrollment.progress}%` }}
-                                                                className="h-full bg-indigo-600"
-                                                            />
-                                                        </div>
-                                                        <span className="text-xs font-bold text-slate-600">{enrollment.progress}%</span>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${enrollment.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' :
-                                                        enrollment.status === 'New' ? 'bg-blue-100 text-blue-700' :
-                                                            'bg-amber-100 text-amber-700'
-                                                        }`}>
-                                                        {enrollment.status}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </main>

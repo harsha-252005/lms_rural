@@ -16,4 +16,7 @@ public class StudentRegistrationDto {
 
     @NotBlank(message = "Password is required")
     private String password;
+
+    @NotBlank(message = "Class level is required")
+    private String classLevel;
 }

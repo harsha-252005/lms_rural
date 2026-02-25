@@ -40,7 +40,6 @@ public class Lesson {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     @JsonIgnoreProperties({ "lessons", "videos", "instructor", "hibernateLazyInitializer", "handler" })
-    @JsonIgnoreProperties({"lessons", "instructor"})
     private Course course;
 
     @PrePersist
@@ -102,4 +101,3 @@ public class Lesson {
         this.course = course;
     }
 }
-

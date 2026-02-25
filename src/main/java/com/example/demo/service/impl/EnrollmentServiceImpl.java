@@ -44,7 +44,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
         // Create notification for instructor
         if (course.getInstructor() != null) {
-            String message = String.format("New student %s has enrolled in your course: %s", student.getName(), course.getTitle());
+            String message = String.format("New student %s has enrolled in your course: %s", student.getName(),
+                    course.getTitle());
             notificationService.createNotification(course.getInstructor().getId(), message, "ENROLLMENT");
         }
 
@@ -93,10 +94,13 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public List<Enrollment> getStudentEnrollments(Long studentId) {
+        System.out.println("DEBUG_ENROLLMENT: Fetching enrollments for studentId=" + studentId);
         if (!studentRepository.existsById(studentId)) {
             throw new ResourceNotFoundException("Student not found with id: " + studentId);
         }
-        return enrollmentRepository.findByStudentId(studentId);
+        List<Enrollment> enrollments = enrollmentRepository.findByStudentId(studentId);
+        System.out.println("DEBUG_ENROLLMENT: Found " + enrollments.size() + " enrollments for studentId=" + studentId);
+        return enrollments;
     }
 
     @Override

@@ -12,6 +12,7 @@ const StudentRegister = () => {
         email: '',
         password: '',
         confirmPassword: '',
+        classLevel: '10', // Default
     });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -26,7 +27,8 @@ const StudentRegister = () => {
             await api.post('/auth/register/student', {
                 name: formData.name,
                 email: formData.email,
-                password: formData.password
+                password: formData.password,
+                classLevel: formData.classLevel
             });
             alert('Registration successful! Please login.');
             navigate('/login');
@@ -104,6 +106,20 @@ const StudentRegister = () => {
                             onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                             className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-indigo-500/50 transition-all"
                         />
+                    </div>
+
+                    <div className="relative group">
+                        <Rocket className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-indigo-400 transition-colors" />
+                        <select
+                            value={formData.classLevel}
+                            onChange={(e) => setFormData({ ...formData, classLevel: e.target.value })}
+                            className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-indigo-500/50 transition-all appearance-none"
+                        >
+                            <option value="">Select Class/Standard</option>
+                            {[...Array(12)].map((_, i) => (
+                                <option key={i + 1} value={String(i + 1)}>Class {i + 1}</option>
+                            ))}
+                        </select>
                     </div>
 
                     <button

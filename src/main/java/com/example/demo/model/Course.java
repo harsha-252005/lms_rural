@@ -25,6 +25,8 @@ public class Course {
     @NotBlank(message = "Title is required")
     private String title;
 
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private String duration;
@@ -39,9 +41,8 @@ public class Course {
     private String thumbnailPath;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instructor_id")
-    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @JsonIgnoreProperties({"courses", "password"})
+    @JoinColumn(name = "instructor_id", nullable = false)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "courses", "password" })
     private Instructor instructor;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -56,7 +57,7 @@ public class Course {
     private List<Lesson> lessons = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties({ "course" })
+    @JsonIgnore
     private List<Video> videos = new ArrayList<>();
 
     @PrePersist

@@ -79,7 +79,11 @@ public class CourseController {
     @GetMapping("/instructor/{instructorId}")
     @Operation(summary = "Get courses by instructor ID")
     public ResponseEntity<List<Course>> getCoursesByInstructor(@PathVariable("instructorId") Long instructorId) {
+        System.out.println("DEBUG_COURSE: Fetching courses for instructor ID: " + instructorId);
+        System.out.flush();
         List<Course> courses = courseService.getCoursesByInstructor(instructorId);
+        System.out.println("DEBUG_COURSE: Found " + courses.size() + " courses for ID: " + instructorId);
+        System.out.flush();
         return ResponseEntity.ok(courses);
     }
 }

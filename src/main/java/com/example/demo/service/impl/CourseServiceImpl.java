@@ -2,10 +2,14 @@ package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Course;
+import com.example.demo.model.Enrollment;
 import com.example.demo.model.Instructor;
+import com.example.demo.model.Student;
 import com.example.demo.model.Video;
 import com.example.demo.repository.CourseRepository;
+import com.example.demo.repository.EnrollmentRepository;
 import com.example.demo.repository.InstructorRepository;
+import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.VideoRepository;
 import com.example.demo.service.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +32,20 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final InstructorRepository instructorRepository;
     private final VideoRepository videoRepository;
+    private final StudentRepository studentRepository;
+    private final EnrollmentRepository enrollmentRepository;
 
     private static final String UPLOAD_DIR = "uploads";
 
     @Override
     public Course createCourse(Course course, Long instructorId) {
+        System.out.println("DEBUG_COURSE: Creating course for instructor ID: " + instructorId);
         Instructor instructor = instructorRepository.findById(instructorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Instructor not found with id " + instructorId));
         course.setInstructor(instructor);
-        return courseRepository.save(course);
+        Course savedCourse = courseRepository.save(course);
+        System.out.println("DEBUG_COURSE: Course saved successfully with ID: " + savedCourse.getId());
+        return savedCourse;
     }
 
     @Override
@@ -48,6 +57,7 @@ public class CourseServiceImpl implements CourseService {
                 .orElseThrow(() -> new ResourceNotFoundException("Instructor not found with id " + instructorId));
 
         // 2. Create & save course first to get the ID
+        System.out.println("DEBUG_COURSE: Creating course with videos for instructor ID: " + instructorId);
         Course course = new Course();
         course.setTitle(title);
         course.setDescription(description);
@@ -56,6 +66,7 @@ public class CourseServiceImpl implements CourseService {
         course.setStatus(status != null ? status : "Draft");
         course.setInstructor(instructor);
         Course savedCourse = courseRepository.save(course);
+        System.out.println("DEBUG_COURSE: Course (with videos) saved with ID: " + savedCourse.getId());
 
         // 3. Save thumbnail
         if (thumbnail != null && !thumbnail.isEmpty()) {
@@ -98,7 +109,45 @@ public class CourseServiceImpl implements CourseService {
 
         // 5. Update course with thumbnail path and return
         savedCourse.getVideos().addAll(videoEntities);
-        return courseRepository.save(savedCourse);
+        Course finalCourse = courseRepository.save(savedCourse);
+
+        // 6. Auto-enroll all students if course is Published
+        if ("Published".equalsIgnoreCase(finalCourse.getStatus())) {
+            autoEnrollAllStudents(finalCourse);
+        }
+
+        return finalCourse;
+    }
+
+    private void autoEnrollAllStudents(Course course) {
+        System.out.println("DEBUG_ENROLL: Starting auto-enrollment for course: " + course.getTitle() + " (ID: "
+                + course.getId() + ") Class: " + course.getClassLevel());
+        List<Student> studentsInClass = studentRepository.findByClassLevel(course.getClassLevel());
+        System.out.println("DEBUG_ENROLL: Found " + studentsInClass.size() + " students for class level "
+                + course.getClassLevel());
+
+        List<Enrollment> enrollments = new ArrayList<>();
+        for (Student student : studentsInClass) {
+            if (!enrollmentRepository.existsByStudentIdAndCourseId(student.getId(), course.getId())) {
+                System.out.println(
+                        "DEBUG_ENROLL: Enrolling student: " + student.getName() + " (ID: " + student.getId() + ")");
+                Enrollment enrollment = new Enrollment();
+                enrollment.setStudent(student);
+                enrollment.setCourse(course);
+                enrollment.setStatus("ENROLLED");
+                enrollment.setProgressPercentage(0.0);
+                enrollments.add(enrollment);
+            } else {
+                System.out.println("DEBUG_ENROLL: Student already enrolled: " + student.getName() + " (ID: "
+                        + student.getId() + ")");
+            }
+        }
+        if (!enrollments.isEmpty()) {
+            enrollmentRepository.saveAll(enrollments);
+            System.out.println("DEBUG_ENROLL: Successfully saved " + enrollments.size() + " new enrollments.");
+        } else {
+            System.out.println("DEBUG_ENROLL: No new enrollments needed.");
+        }
     }
 
     @Override
@@ -114,6 +163,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course updateCourse(Long id, Course courseDetails) {
         return courseRepository.findById(id).map(course -> {
+            String oldStatus = course.getStatus();
             course.setTitle(courseDetails.getTitle());
             course.setDescription(courseDetails.getDescription());
             course.setDuration(courseDetails.getDuration());
@@ -123,7 +173,15 @@ public class CourseServiceImpl implements CourseService {
                 course.setCategory(courseDetails.getCategory());
             if (courseDetails.getStatus() != null)
                 course.setStatus(courseDetails.getStatus());
-            return courseRepository.save(course);
+
+            Course updatedCourse = courseRepository.save(course);
+
+            // Trigger auto-enrollment if course is newly published
+            if ("Published".equalsIgnoreCase(updatedCourse.getStatus()) && !"Published".equalsIgnoreCase(oldStatus)) {
+                autoEnrollAllStudents(updatedCourse);
+            }
+
+            return updatedCourse;
         }).orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + id));
     }
 
@@ -137,6 +195,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> getCoursesByInstructor(Long instructorId) {
-        return courseRepository.findByInstructorId(instructorId);
+        System.out.println("DEBUG_COURSE: Fetching courses for instructor ID: " + instructorId);
+        List<Course> courses = courseRepository.findByInstructorId(instructorId);
+        System.out.println("DEBUG_COURSE: Found " + courses.size() + " courses for instructor ID: " + instructorId);
+        return courses;
     }
 }

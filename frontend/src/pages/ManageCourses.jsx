@@ -45,10 +45,12 @@ const THUMBNAILS = [
 const enrichCourse = (c, idx) => ({
     ...c,
     category: c.category || CATEGORIES[idx % CATEGORIES.length],
-    status: c.status || (idx % 3 === 0 ? 'Draft' : 'Published'),
+    status: c.status || 'Draft',
     students: c.students ?? Math.floor(Math.random() * 500),
     rating: c.rating ?? +(3.5 + Math.random() * 1.5).toFixed(1),
-    thumbnail: c.thumbnailPath || c.thumbnail || THUMBNAILS[idx % THUMBNAILS.length],
+    thumbnail: c.thumbnailPath
+        ? (c.thumbnailPath.startsWith('http') ? c.thumbnailPath : `/${c.thumbnailPath}`)
+        : (c.thumbnail || THUMBNAILS[idx % THUMBNAILS.length]),
 });
 
 /* ───── animation variants ───── */
@@ -100,35 +102,36 @@ const ManageCourses = () => {
         setTimeout(() => setToast(null), 4000);
     };
 
+
+
     /* ── fetch courses ── */
     const fetchCourses = useCallback(async () => {
         setLoading(true);
         try {
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
-            let res;
-            if (user.id) {
-                res = await api.get(`/courses/instructor/${user.id}`);
-            } else {
-                res = await api.get('/courses');
+            const userStr = localStorage.getItem('user');
+            if (!userStr) {
+                navigate('/login');
+                return;
             }
+            
+            const user = JSON.parse(userStr);
+            if (!user.id) {
+                localStorage.clear();
+                navigate('/login');
+                return;
+            }
+            
+            const res = await api.get(`/instructors/${user.id}/courses`);
             const enriched = (res.data || []).map((c, i) => enrichCourse(c, i));
             setCourses(enriched);
         } catch (err) {
-            console.error('Fetch courses error:', err);
-            showToast('Failed to load courses. Showing sample data.', 'error');
-            // fallback sample data so the page isn't blank
-            setCourses([
-                enrichCourse({ id: 1, title: 'Organic Farming Fundamentals', description: 'Learn modern organic techniques' }, 0),
-                enrichCourse({ id: 2, title: 'Basic Digital Literacy', description: 'Computer & internet basics' }, 1),
-                enrichCourse({ id: 3, title: 'Sustainable Water Management', description: 'Conservation & irrigation' }, 2),
-                enrichCourse({ id: 4, title: 'Financial Literacy for Villages', description: 'Budgeting & savings' }, 3),
-                enrichCourse({ id: 5, title: 'Solar Panel Installation & Maintenance', description: 'Renewable energy skills' }, 4),
-                enrichCourse({ id: 6, title: 'Handicraft Business Basics', description: 'Turn crafts into income' }, 5),
-            ]);
+            console.error('Failed to load courses:', err);
+            showToast('Failed to load courses: ' + (err.response?.data?.message || err.message), 'error');
+            setCourses([]);
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [navigate]);
 
     useEffect(() => { fetchCourses(); }, [fetchCourses]);
 
@@ -139,10 +142,10 @@ const ManageCourses = () => {
     const totalEnrollments = courses.reduce((s, c) => s + (c.students || 0), 0);
 
     const stats = [
-        { title: 'Total Courses', value: totalCourses, icon: <BookOpen className="text-indigo-500" />, trend: `${published} live` },
-        { title: 'Published', value: published, icon: <CheckCircle2 className="text-emerald-500" />, trend: 'Active now' },
-        { title: 'Drafts', value: drafts, icon: <FileEdit className="text-amber-500" />, trend: 'Needs review' },
-        { title: 'Total Enrollments', value: totalEnrollments.toLocaleString(), icon: <Users className="text-blue-500" />, trend: '+8% this month' },
+        { title: 'Total Courses', value: totalCourses, icon: BookOpen, trend: `${published} live` },
+        { title: 'Published', value: published, icon: CheckCircle2, trend: 'Active now' },
+        { title: 'Drafts', value: drafts, icon: FileEdit, trend: 'Needs review' },
+        { title: 'Total Enrollments', value: totalEnrollments.toLocaleString(), icon: Users, trend: '+8% this month' },
     ];
 
     /* ── filtered + sorted list ── */
@@ -209,6 +212,7 @@ const ManageCourses = () => {
                 title: course.title,
                 description: course.description || '',
                 duration: course.duration || '',
+                status: newStatus
             });
             setCourses(prev =>
                 prev.map(c => c.id === course.id ? { ...c, status: newStatus } : c)

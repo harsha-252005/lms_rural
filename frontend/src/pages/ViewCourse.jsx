@@ -19,6 +19,7 @@ import {
     X
 } from 'lucide-react';
 import InstructorSidebar from '../components/InstructorSidebar';
+import StudentSidebar from '../components/StudentSidebar';
 import DashboardNavbar from '../components/DashboardNavbar';
 import api from '../utils/api';
 
@@ -34,6 +35,15 @@ const ViewCourse = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeVideo, setActiveVideo] = useState(null);
+    const [userRole, setUserRole] = useState('INSTRUCTOR');
+
+    useEffect(() => {
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+            const user = JSON.parse(userStr);
+            setUserRole(user.role || 'INSTRUCTOR');
+        }
+    }, []);
 
     useEffect(() => {
         const fetchCourse = async () => {
@@ -66,9 +76,10 @@ const ViewCourse = () => {
        ═══════════════════════════ */
 
     if (loading) {
+        const Sidebar = userRole === 'STUDENT' ? StudentSidebar : InstructorSidebar;
         return (
             <div className="flex bg-[#f8fafc] min-h-screen font-sans">
-                <InstructorSidebar />
+                <Sidebar />
                 <div className="flex-1 flex flex-col min-w-0 overflow-y-auto max-h-screen ml-64">
                     <DashboardNavbar />
                     <div className="flex flex-col items-center justify-center py-32">
@@ -81,16 +92,18 @@ const ViewCourse = () => {
     }
 
     if (error || !course) {
+        const Sidebar = userRole === 'STUDENT' ? StudentSidebar : InstructorSidebar;
+        const backPath = userRole === 'STUDENT' ? '/my-courses' : '/manage-courses';
         return (
             <div className="flex bg-[#f8fafc] min-h-screen font-sans">
-                <InstructorSidebar />
+                <Sidebar />
                 <div className="flex-1 flex flex-col min-w-0 overflow-y-auto max-h-screen ml-64">
                     <DashboardNavbar />
                     <div className="flex flex-col items-center justify-center py-32">
                         <AlertTriangle size={48} className="text-red-400 mb-4" />
                         <p className="text-slate-600 font-bold text-xl mb-2">Course Not Found</p>
                         <p className="text-slate-400 mb-6">{error || 'This course does not exist.'}</p>
-                        <button onClick={() => navigate('/manage-courses')}
+                        <button onClick={() => navigate(backPath)}
                             className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-indigo-700 transition-all">
                             Back to Courses
                         </button>
@@ -101,10 +114,12 @@ const ViewCourse = () => {
     }
 
     const hasVideos = course.videos && course.videos.length > 0;
+    const Sidebar = userRole === 'STUDENT' ? StudentSidebar : InstructorSidebar;
+    const backPath = userRole === 'STUDENT' ? '/my-courses' : '/manage-courses';
 
     return (
         <div className="flex bg-[#f8fafc] min-h-screen font-sans">
-            <InstructorSidebar />
+            <Sidebar />
 
             <div className="flex-1 flex flex-col min-w-0 overflow-y-auto max-h-screen ml-64">
                 <DashboardNavbar />
@@ -114,11 +129,11 @@ const ViewCourse = () => {
                     {/* ─── Back Button ─── */}
                     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-6">
                         <button
-                            onClick={() => navigate('/manage-courses')}
+                            onClick={() => navigate(backPath)}
                             className="flex items-center gap-2 text-slate-400 hover:text-indigo-600 font-semibold transition-colors group"
                         >
                             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                            <span>Back to Courses</span>
+                            <span>Back to {userRole === 'STUDENT' ? 'My Courses' : 'Courses'}</span>
                         </button>
                     </motion.div>
 

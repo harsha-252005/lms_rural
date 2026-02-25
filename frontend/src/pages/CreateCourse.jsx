@@ -115,8 +115,20 @@ const CreateCourse = () => {
         setProgress(0);
 
         try {
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
-            const instructorId = user.id || 1;
+            const userStr = localStorage.getItem('user');
+            if (!userStr) {
+                showToast('You must be logged in to create a course', 'error');
+                setUploading(false);
+                return;
+            }
+            const user = JSON.parse(userStr);
+            const instructorId = user.id;
+
+            if (!instructorId) {
+                showToast('Instructor ID not found. Please log in again.', 'error');
+                setUploading(false);
+                return;
+            }
 
             const formData = new FormData();
             formData.append('courseTitle', form.courseTitle);
@@ -335,8 +347,8 @@ const CreateCourse = () => {
                                 </label>
                                 <div className="flex gap-4">
                                     <label className={`flex-1 flex items-center justify-center gap-3 py-3.5 rounded-xl border-2 cursor-pointer transition-all ${form.status === 'Draft'
-                                            ? 'border-amber-400 bg-amber-50 text-amber-700'
-                                            : 'border-slate-200 bg-slate-50 text-slate-400 hover:border-slate-300'
+                                        ? 'border-amber-400 bg-amber-50 text-amber-700'
+                                        : 'border-slate-200 bg-slate-50 text-slate-400 hover:border-slate-300'
                                         }`}>
                                         <input type="radio" name="status" value="Draft"
                                             checked={form.status === 'Draft'} onChange={set('status')}
@@ -348,8 +360,8 @@ const CreateCourse = () => {
                                         <span className="font-bold text-sm">📝 Draft</span>
                                     </label>
                                     <label className={`flex-1 flex items-center justify-center gap-3 py-3.5 rounded-xl border-2 cursor-pointer transition-all ${form.status === 'Published'
-                                            ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
-                                            : 'border-slate-200 bg-slate-50 text-slate-400 hover:border-slate-300'
+                                        ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
+                                        : 'border-slate-200 bg-slate-50 text-slate-400 hover:border-slate-300'
                                         }`}>
                                         <input type="radio" name="status" value="Published"
                                             checked={form.status === 'Published'} onChange={set('status')}

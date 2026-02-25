@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("/api/enrollments")
 @RequiredArgsConstructor
 @Tag(name = "Enrollment Controller", description = "Operations related to Enrollment management")
-@CrossOrigin(origins = "*")
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
@@ -30,21 +29,22 @@ public class EnrollmentController {
 
     @PutMapping("/{enrollmentId}/progress")
     @Operation(summary = "Update progress percentage")
-    public ResponseEntity<Enrollment> updateProgress(@PathVariable Long enrollmentId, @RequestBody Double progress) {
+    public ResponseEntity<Enrollment> updateProgress(@PathVariable("enrollmentId") Long enrollmentId,
+            @RequestBody Double progress) {
         Enrollment enrollment = enrollmentService.updateProgress(enrollmentId, progress);
         return ResponseEntity.ok(enrollment);
     }
 
     @PutMapping("/{enrollmentId}/complete")
     @Operation(summary = "Mark course as COMPLETED")
-    public ResponseEntity<Enrollment> completeCourse(@PathVariable Long enrollmentId) {
+    public ResponseEntity<Enrollment> completeCourse(@PathVariable("enrollmentId") Long enrollmentId) {
         Enrollment enrollment = enrollmentService.completeCourse(enrollmentId);
         return ResponseEntity.ok(enrollment);
     }
 
     @PutMapping("/{enrollmentId}/drop")
     @Operation(summary = "Mark course as DROPPED")
-    public ResponseEntity<Enrollment> dropCourse(@PathVariable Long enrollmentId) {
+    public ResponseEntity<Enrollment> dropCourse(@PathVariable("enrollmentId") Long enrollmentId) {
         Enrollment enrollment = enrollmentService.dropCourse(enrollmentId);
         return ResponseEntity.ok(enrollment);
     }
@@ -57,13 +57,13 @@ public class EnrollmentController {
 
     @GetMapping({ "/student/{studentId}", "/students/{studentId}" })
     @Operation(summary = "Get all enrollments of a student")
-    public ResponseEntity<List<Enrollment>> getEnrollmentsByStudent(@PathVariable Long studentId) {
+    public ResponseEntity<List<Enrollment>> getEnrollmentsByStudent(@PathVariable("studentId") Long studentId) {
         return ResponseEntity.ok(enrollmentService.getStudentEnrollments(studentId));
     }
 
     @GetMapping("/courses/{courseId}")
     @Operation(summary = "Get all enrollments for a course")
-    public ResponseEntity<List<Enrollment>> getEnrollmentsByCourse(@PathVariable Long courseId) {
+    public ResponseEntity<List<Enrollment>> getEnrollmentsByCourse(@PathVariable("courseId") Long courseId) {
         return ResponseEntity.ok(enrollmentService.getCourseEnrollments(courseId));
     }
 

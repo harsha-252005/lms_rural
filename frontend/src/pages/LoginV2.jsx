@@ -19,25 +19,24 @@ const Login = () => {
         try {
             const response = await api.post('/auth/login', formData);
             const userData = response.data;
+            console.log('Login response:', userData);
+            
+            // Ensure role is set
+            if (!userData.role) {
+                userData.role = formData.role;
+            }
+            
             localStorage.setItem('user', JSON.stringify(userData));
+            console.log('Stored user:', userData);
 
-            if (formData.role === 'STUDENT') {
+            if (userData.role === 'STUDENT') {
                 navigate('/student/dashboard');
             } else {
                 navigate('/instructor/dashboard');
             }
         } catch (error) {
             console.error('Login error:', error);
-            // Fallback for demo
-            localStorage.setItem('user', JSON.stringify({
-                name: "Demo User",
-                role: formData.role
-            }));
-            if (formData.role === 'STUDENT') {
-                navigate('/student/dashboard');
-            } else {
-                alert('Login failed. Falling back to demo mode for Student only.');
-            }
+            alert('Login failed: ' + (error.response?.data?.message || error.message));
         } finally {
             setIsLoading(false);
         }

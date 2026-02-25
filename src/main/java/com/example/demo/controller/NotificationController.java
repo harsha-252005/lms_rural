@@ -21,26 +21,26 @@ public class NotificationController {
 
     @GetMapping("/user/{userId}")
     @Operation(summary = "Get all notifications for a user")
-    public ResponseEntity<List<Notification>> getUserNotifications(@PathVariable Long userId) {
+    public ResponseEntity<List<Notification>> getUserNotifications(@PathVariable("userId") Long userId) {
         return ResponseEntity.ok(notificationService.getUserNotifications(userId));
     }
 
     @GetMapping("/user/{userId}/unread-count")
     @Operation(summary = "Get unread notifications count for a user")
-    public ResponseEntity<Long> getUnreadCount(@PathVariable Long userId) {
+    public ResponseEntity<Long> getUnreadCount(@PathVariable("userId") Long userId) {
         return ResponseEntity.ok(notificationService.getUnreadCount(userId));
     }
 
     @PutMapping("/{id}/read")
     @Operation(summary = "Mark a notification as read")
-    public ResponseEntity<Void> markAsRead(@PathVariable Long id) {
+    public ResponseEntity<Void> markAsRead(@PathVariable("id") Long id) {
         notificationService.markAsRead(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/user/{userId}/read-all")
     @Operation(summary = "Mark all notifications for a user as read")
-    public ResponseEntity<Void> markAllAsRead(@PathVariable Long userId) {
+    public ResponseEntity<Void> markAllAsRead(@PathVariable("userId") Long userId) {
         notificationService.markAllAsRead(userId);
         return ResponseEntity.ok().build();
     }

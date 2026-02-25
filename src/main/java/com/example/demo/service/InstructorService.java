@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.model.Course;
 import com.example.demo.model.Instructor;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface InstructorService {
     List<com.example.demo.model.Enrollment> getEnrolledStudents(Long instructorId);
 
     void removeInstructor(Long id);
+
+    List<Course> getCoursesByInstructor(Long instructorId);
 }

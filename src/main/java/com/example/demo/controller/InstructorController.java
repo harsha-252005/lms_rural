@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Course;
 import com.example.demo.model.Instructor;
 import com.example.demo.model.Enrollment;
 import com.example.demo.service.InstructorService;
@@ -38,7 +39,7 @@ public class InstructorController {
 
     @GetMapping("/{instructorId}")
     @Operation(summary = "Get instructor details")
-    public ResponseEntity<Instructor> getInstructorById(@PathVariable Long instructorId) {
+    public ResponseEntity<Instructor> getInstructorById(@PathVariable("instructorId") Long instructorId) {
         return instructorService.getInstructorById(instructorId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -46,7 +47,7 @@ public class InstructorController {
 
     @PutMapping("/{instructorId}/update")
     @Operation(summary = "Update instructor details")
-    public ResponseEntity<Instructor> updateInstructor(@PathVariable Long instructorId,
+    public ResponseEntity<Instructor> updateInstructor(@PathVariable("instructorId") Long instructorId,
             @Valid @RequestBody Instructor instructorDetails) {
         try {
             Instructor updatedInstructor = instructorService.updateInstructor(instructorId, instructorDetails);
@@ -58,7 +59,7 @@ public class InstructorController {
 
     @DeleteMapping("/{instructorId}/remove")
     @Operation(summary = "Remove instructor")
-    public ResponseEntity<Void> removeInstructor(@PathVariable Long instructorId) {
+    public ResponseEntity<Void> removeInstructor(@PathVariable("instructorId") Long instructorId) {
         try {
             instructorService.removeInstructor(instructorId);
             return ResponseEntity.noContent().build();
@@ -69,7 +70,7 @@ public class InstructorController {
 
     @PutMapping("/{instructorId}/change-password")
     @Operation(summary = "Change instructor password")
-    public ResponseEntity<String> changePassword(@PathVariable Long instructorId,
+    public ResponseEntity<String> changePassword(@PathVariable("instructorId") Long instructorId,
             @RequestParam String oldPassword, @RequestParam String newPassword) {
         try {
             instructorService.changePassword(instructorId, oldPassword, newPassword);
@@ -81,7 +82,7 @@ public class InstructorController {
 
     @GetMapping("/{instructorId}/dashboard-stats")
     @Operation(summary = "Get instructor dashboard statistics")
-    public ResponseEntity<Map<String, Object>> getDashboardStats(@PathVariable Long instructorId) {
+    public ResponseEntity<Map<String, Object>> getDashboardStats(@PathVariable("instructorId") Long instructorId) {
         try {
             return ResponseEntity.ok(instructorService.getDashboardStats(instructorId));
         } catch (RuntimeException e) {
@@ -91,11 +92,20 @@ public class InstructorController {
 
     @GetMapping("/{instructorId}/students")
     @Operation(summary = "Get students enrolled in instructor's courses")
-    public ResponseEntity<List<Enrollment>> getEnrolledStudents(@PathVariable Long instructorId) {
+    public ResponseEntity<List<Enrollment>> getEnrolledStudents(@PathVariable("instructorId") Long instructorId) {
         try {
             return ResponseEntity.ok(instructorService.getEnrolledStudents(instructorId));
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{instructorId}/courses")
+    @Operation(summary = "Get courses created by instructor")
+    public ResponseEntity<List<Course>> getInstructorCourses(@PathVariable("instructorId") Long instructorId) {
+        System.out.println("DEBUG_INSTRUCTOR: Fetching courses for instructorId=" + instructorId);
+        List<Course> courses = instructorService.getCoursesByInstructor(instructorId);
+        System.out.println("DEBUG_INSTRUCTOR: Found " + courses.size() + " courses for instructorId=" + instructorId);
+        return ResponseEntity.ok(courses);
     }
 }

@@ -25,7 +25,7 @@ public class Enrollment {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id", nullable = false)
-    @JsonIgnoreProperties({"lessons", "instructor"})
+    @JsonIgnoreProperties({"lessons", "videos", "instructor"})
     private Course course;
 
     @Column(name = "enrollment_date", nullable = false, updatable = false)

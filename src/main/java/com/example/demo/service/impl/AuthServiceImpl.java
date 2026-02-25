@@ -35,6 +35,7 @@ public class AuthServiceImpl implements AuthService {
         student.setName(registrationDto.getName());
         student.setEmail(registrationDto.getEmail());
         student.setPassword(registrationDto.getPassword()); // Plain text as requested
+        student.setClassLevel(registrationDto.getClassLevel());
 
         // Note: phone and village are required in the entity but not in the DTO
         // Setting placeholders for now as per registration fields provided in
@@ -45,7 +46,8 @@ public class AuthServiceImpl implements AuthService {
         studentRepository.save(student);
 
         // Track registration activity
-        activityLogRepository.save(new ActivityLog(null, student.getId(), student.getName(), "REGISTER", LocalDateTime.now()));
+        activityLogRepository
+                .save(new ActivityLog(null, student.getId(), student.getName(), "REGISTER", LocalDateTime.now()));
 
         return "Student registered successfully";
     }
@@ -61,42 +63,67 @@ public class AuthServiceImpl implements AuthService {
         instructor.setEmail(registrationDto.getEmail());
         instructor.setPassword(registrationDto.getPassword()); // Plain text as requested
         instructor.setSpecialization(registrationDto.getSpecialization());
+        instructor.setPhone("N/A"); // Default phone as it's required in model but not in DTO
 
         instructorRepository.save(instructor);
 
         // Track registration activity
-        activityLogRepository.save(new ActivityLog(null, instructor.getId(), instructor.getName(), "REGISTER", LocalDateTime.now()));
+        activityLogRepository
+                .save(new ActivityLog(null, instructor.getId(), instructor.getName(), "REGISTER", LocalDateTime.now()));
 
         return "Instructor registered successfully";
     }
 
     @Override
     public LoginResponseDto login(LoginDto loginDto) {
+        System.out.println(
+                "DEBUG_LOGIN: Login attempt: Email=[" + loginDto.getEmail() + "], Role=[" + loginDto.getRole() + "]");
+        System.out.flush();
+
         if ("STUDENT".equalsIgnoreCase(loginDto.getRole())) {
             Optional<Student> student = studentRepository.findByEmail(loginDto.getEmail());
-            if (student.isPresent() && student.get().getPassword().equals(loginDto.getPassword())) {
-                // Track login activity
-                activityLogRepository.save(new ActivityLog(null, student.get().getId(), student.get().getName(), "LOGIN", LocalDateTime.now()));
+            if (student.isPresent()) {
+                System.out.println("Student found. Comparing passwords: '" + student.get().getPassword() + "' vs '"
+                        + loginDto.getPassword() + "'");
+                if (student.get().getPassword().equals(loginDto.getPassword())) {
+                    // Track login activity
+                    activityLogRepository.save(new ActivityLog(null, student.get().getId(), student.get().getName(),
+                            "LOGIN", LocalDateTime.now()));
 
-                return new LoginResponseDto(
-                        "Login successful for Student",
-                        student.get().getId(),
-                        student.get().getName(),
-                        student.get().getEmail(),
-                        "STUDENT");
+                    return new LoginResponseDto(
+                            "Login successful for Student",
+                            student.get().getId(),
+                            student.get().getName(),
+                            student.get().getEmail(),
+                            "STUDENT");
+                } else {
+                    System.out.println("Password mismatch for student");
+                }
+            } else {
+                System.out.println("Student not found for email: " + loginDto.getEmail());
             }
         } else if ("INSTRUCTOR".equalsIgnoreCase(loginDto.getRole())) {
             Optional<Instructor> instructor = instructorRepository.findByEmail(loginDto.getEmail());
-            if (instructor.isPresent() && instructor.get().getPassword().equals(loginDto.getPassword())) {
-                // Track login activity
-                activityLogRepository.save(new ActivityLog(null, instructor.get().getId(), instructor.get().getName(), "LOGIN", LocalDateTime.now()));
+            if (instructor.isPresent()) {
+                System.out.println("Instructor found. Comparing passwords: '" + instructor.get().getPassword()
+                        + "' vs '" + loginDto.getPassword() + "'");
+                if (instructor.get().getPassword().equals(loginDto.getPassword())) {
+                    // Track login activity
+                    activityLogRepository
+                            .save(new ActivityLog(null, instructor.get().getId(), instructor.get().getName(),
+                                    "LOGIN", LocalDateTime.now()));
 
-                return new LoginResponseDto(
-                        "Login successful for Instructor",
-                        instructor.get().getId(),
-                        instructor.get().getName(),
-                        instructor.get().getEmail(),
-                        "INSTRUCTOR");
+                    return new LoginResponseDto(
+                            "Login successful for Instructor",
+                            instructor.get().getId(),
+                            instructor.get().getName(),
+                            instructor.get().getEmail(),
+                            "INSTRUCTOR");
+                } else {
+                    System.out.println("Password mismatch for instructor");
+                }
+            } else {
+                System.out.println("Instructor not found for email: " + loginDto.getEmail());
             }
         }
 
