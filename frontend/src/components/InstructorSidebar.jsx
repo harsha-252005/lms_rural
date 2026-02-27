@@ -7,7 +7,9 @@ import {
     Settings,
     LogOut,
     GraduationCap,
-    PlusCircle
+    PlusCircle,
+    FileText,
+    ClipboardCheck
 } from 'lucide-react';
 
 const InstructorSidebar = () => {
@@ -15,6 +17,8 @@ const InstructorSidebar = () => {
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/instructor/dashboard' },
         { icon: <BookOpen size={20} />, label: 'Manage Courses', path: '/manage-courses' },
         { icon: <PlusCircle size={20} />, label: 'Create Course', path: '/create-course' },
+        { icon: <FileText size={20} />, label: 'Assignments', path: '/instructor/assignments' },
+        { icon: <ClipboardCheck size={20} />, label: 'Tests', path: '/instructor/tests' },
         { icon: <Users size={20} />, label: 'Students', path: '/instructor/students' },
         { icon: <Settings size={20} />, label: 'Settings', path: '/instructor/settings' },
     ];

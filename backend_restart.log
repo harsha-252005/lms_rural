@@ -1,0 +1,73 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.example:lms-for-rural >----------------------
+[INFO] Building lms-for-rural 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.2.3:run (default-cli) > test-compile @ lms-for-rural >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ lms-for-rural ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ lms-for-rural ---
+[INFO] Changes detected - recompiling the module! :input tree
+[INFO] Compiling 54 source files with javac [debug release 17] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ lms-for-rural ---
+[INFO] skip non existing resourceDirectory c:\Users\nirru\OneDrive\Desktop\lms for rural\lms-for-rural\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ lms-for-rural ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 1 source file with javac [debug release 17] to target\test-classes
+[INFO] 
+[INFO] <<< spring-boot:3.2.3:run (default-cli) < test-compile @ lms-for-rural <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.2.3:run (default-cli) @ lms-for-rural ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.3)
+
+2026-02-27T12:05:58.980+05:30  INFO 3672 --- [lms-for-rural] [           main] c.example.demo.LmsForRuralApplication    : Starting LmsForRuralApplication using Java 21.0.8 with PID 3672 (C:\Users\nirru\OneDrive\Desktop\lms for rural\lms-for-rural\target\classes started by nirru in c:\Users\nirru\OneDrive\Desktop\lms for rural\lms-for-rural)
+2026-02-27T12:05:58.981+05:30  INFO 3672 --- [lms-for-rural] [           main] c.example.demo.LmsForRuralApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-02-27T12:05:59.809+05:30  INFO 3672 --- [lms-for-rural] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-27T12:05:59.910+05:30  INFO 3672 --- [lms-for-rural] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 94 ms. Found 9 JPA repository interfaces.
+2026-02-27T12:06:00.504+05:30  INFO 3672 --- [lms-for-rural] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-27T12:06:00.521+05:30  INFO 3672 --- [lms-for-rural] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-27T12:06:00.521+05:30  INFO 3672 --- [lms-for-rural] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2026-02-27T12:06:00.611+05:30  INFO 3672 --- [lms-for-rural] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-27T12:06:00.612+05:30  INFO 3672 --- [lms-for-rural] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1585 ms
+2026-02-27T12:06:00.779+05:30  INFO 3672 --- [lms-for-rural] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-27T12:06:00.865+05:30  INFO 3672 --- [lms-for-rural] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-02-27T12:06:00.907+05:30  INFO 3672 --- [lms-for-rural] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-27T12:06:01.194+05:30  INFO 3672 --- [lms-for-rural] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-27T12:06:01.235+05:30  INFO 3672 --- [lms-for-rural] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-27T12:06:01.429+05:30  INFO 3672 --- [lms-for-rural] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4eb63dc8
+2026-02-27T12:06:01.430+05:30  INFO 3672 --- [lms-for-rural] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-27T12:06:01.475+05:30  WARN 3672 --- [lms-for-rural] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-27T12:06:01.476+05:30  WARN 3672 --- [lms-for-rural] [           main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2026-02-27T12:06:02.723+05:30  INFO 3672 --- [lms-for-rural] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-27T12:06:02.846+05:30  INFO 3672 --- [lms-for-rural] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-27T12:06:03.479+05:30  WARN 3672 --- [lms-for-rural] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-27T12:06:03.496+05:30  WARN 3672 --- [lms-for-rural] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: e63787f8-ae05-4f86-ba95-fd7688fc5cd1
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-02-27T12:06:03.776+05:30  INFO 3672 --- [lms-for-rural] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5edd2170, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@327ac23, org.springframework.security.web.context.SecurityContextHolderFilter@31aee6d9, org.springframework.security.web.header.HeaderWriterFilter@38aed8ad, org.springframework.web.filter.CorsFilter@32db94fb, org.springframework.security.web.authentication.logout.LogoutFilter@6a577564, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1a507ea0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@64a9fca7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6b61a4b0, org.springframework.security.web.access.ExceptionTranslationFilter@141874c8, org.springframework.security.web.access.intercept.AuthorizationFilter@eea69a9]
+2026-02-27T12:06:04.042+05:30  INFO 3672 --- [lms-for-rural] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-02-27T12:06:04.051+05:30  INFO 3672 --- [lms-for-rural] [           main] c.example.demo.LmsForRuralApplication    : Started LmsForRuralApplication in 5.459 seconds (process running for 5.82)
+2026-02-27T12:07:28.976+05:30  INFO 3672 --- [lms-for-rural] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-27T12:07:28.976+05:30  INFO 3672 --- [lms-for-rural] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-27T12:07:28.977+05:30  INFO 3672 --- [lms-for-rural] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+
+c:\Users\nirru\OneDrive\Desktop\lms for rural\lms-for-rural>

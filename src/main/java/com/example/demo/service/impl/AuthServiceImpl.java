@@ -109,9 +109,8 @@ public class AuthServiceImpl implements AuthService {
                         + "' vs '" + loginDto.getPassword() + "'");
                 if (instructor.get().getPassword().equals(loginDto.getPassword())) {
                     // Track login activity
-                    activityLogRepository
-                            .save(new ActivityLog(null, instructor.get().getId(), instructor.get().getName(),
-                                    "LOGIN", LocalDateTime.now()));
+                    activityLogRepository.save(new ActivityLog(null, instructor.get().getId(), instructor.get().getName(),
+                            "LOGIN", LocalDateTime.now()));
 
                     return new LoginResponseDto(
                             "Login successful for Instructor",

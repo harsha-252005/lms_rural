@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import {
     LayoutDashboard,
     BookOpen,
-    Search,
-    ClipboardList,
+    FileText,
+    ClipboardCheck,
     User,
     LogOut,
     GraduationCap
@@ -14,9 +14,8 @@ const Sidebar = () => {
     const menuItems = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/student/dashboard' },
         { icon: BookOpen, label: 'My Courses', path: '/student/my-courses' },
-        { icon: Search, label: 'Browse Courses', path: '/ student/dashboard' }, // Adjusted path for placeholder
-        { icon: ClipboardList, label: 'Tests', path: '/student/dashboard' }, // Adjusted path for placeholder
-        { icon: User, label: 'Profile', path: '/student/dashboard' }, // Adjusted path for placeholder
+        { icon: FileText, label: 'Assignments', path: '/student/assignments' },
+        { icon: ClipboardCheck, label: 'Tests', path: '/student/tests' },
     ];
 
     const handleLogout = () => {
