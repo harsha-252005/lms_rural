@@ -15,6 +15,7 @@ import StudentAssignments from './pages/StudentAssignments';
 import StudentTests from './pages/StudentTests';
 import InstructorAssignments from './pages/InstructorAssignments';
 import InstructorTests from './pages/InstructorTests';
+import StudentProfile from './pages/StudentProfile';
 
 // App component managing the main routing of the LMS
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/student/my-courses" element={<MyCourses />} />
         <Route path="/student/assignments" element={<StudentAssignments />} />
         <Route path="/student/tests" element={<StudentTests />} />
+        <Route path="/student/profile" element={<StudentProfile />} />
         <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
         <Route path="/instructor/settings" element={<InstructorSettings />} />
         <Route path="/instructor/students" element={<InstructorStudents />} />

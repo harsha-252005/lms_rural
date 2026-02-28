@@ -16,6 +16,7 @@ const Sidebar = () => {
         { icon: BookOpen, label: 'My Courses', path: '/student/my-courses' },
         { icon: FileText, label: 'Assignments', path: '/student/assignments' },
         { icon: ClipboardCheck, label: 'Tests', path: '/student/tests' },
+        { icon: User, label: 'Profile', path: '/student/profile' },
     ];
 
     const handleLogout = () => {
