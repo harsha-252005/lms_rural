@@ -88,13 +88,13 @@ const Login = () => {
                         </div>
                     </div>
                     <p className="text-slate-300 font-medium italic mb-4">
-                        &quot;The best platform for accessible education. It changed my career path completely.&quot;
+                        &quot;Bringing world-class education to every corner of the country. Distance is no longer a barrier.&quot;
                     </p>
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-slate-700 font-bold flex items-center justify-center text-white text-xs">SJ</div>
+                        <div className="w-10 h-10 rounded-full bg-slate-700 font-bold flex items-center justify-center text-white text-xs">AS</div>
                         <div>
-                            <p className="text-white font-bold text-sm">Sarah Jenkins</p>
-                            <p className="text-slate-500 text-xs">Fullstack Developer</p>
+                            <p className="text-white font-bold text-sm">Anita Sharma</p>
+                            <p className="text-slate-500 text-xs">Rural Educator</p>
                         </div>
                     </div>
                 </motion.div>
