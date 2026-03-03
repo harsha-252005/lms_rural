@@ -20,12 +20,12 @@ const Login = () => {
             const response = await api.post('/auth/login', formData);
             const userData = response.data;
             console.log('Login response:', userData);
-            
+
             // Ensure role is set
             if (!userData.role) {
                 userData.role = formData.role;
             }
-            
+
             localStorage.setItem('user', JSON.stringify(userData));
             console.log('Stored user:', userData);
 
@@ -65,7 +65,7 @@ const Login = () => {
                         className="max-w-md"
                     >
                         <h1 className="text-5xl font-black text-white leading-tight mb-6">
-                            Master your <span className="text-indigo-400">future</span>, anywhere in the world.
+                            Bridging the <span className="text-indigo-400">Knowledge Gap</span> for Every Rural Mind.
                         </h1>
                         <p className="text-slate-400 text-lg font-medium leading-relaxed">
                             Join over 50,000+ students learning the most in-demand skills from top industry experts.
@@ -88,13 +88,13 @@ const Login = () => {
                         </div>
                     </div>
                     <p className="text-slate-300 font-medium italic mb-4">
-                        &quot;Bringing world-class education to every corner of the country. Distance is no longer a barrier.&quot;
+                        &quot;Education is the most powerful weapon which you can use to change the world. We bring that weapon to your doorstep.&quot;
                     </p>
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-slate-700 font-bold flex items-center justify-center text-white text-xs">AS</div>
+                        <div className="w-10 h-10 rounded-full bg-slate-700 font-bold flex items-center justify-center text-white text-xs">KP</div>
                         <div>
-                            <p className="text-white font-bold text-sm">Anita Sharma</p>
-                            <p className="text-slate-500 text-xs">Rural Educator</p>
+                            <p className="text-white font-bold text-sm">Kiran Patel</p>
+                            <p className="text-slate-500 text-xs">Visionary Educator</p>
                         </div>
                     </div>
                 </motion.div>
