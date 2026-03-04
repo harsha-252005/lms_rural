@@ -42,33 +42,63 @@ const Login = () => {
         }
     };
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.3,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.5, ease: 'easeOut' },
+        },
+    };
+
     return (
-        <div className="min-h-screen w-full flex bg-[#0f172a] font-sans selection:bg-indigo-500/30 overflow-hidden">
+        <div className="min-h-screen w-full flex bg-[#0f172a] font-sans selection:bg-indigo-500/30 overflow-hidden relative">
+            {/* Ambient Background Elements */}
+            <div className="absolute inset-0 grid-bg z-0"></div>
+
             <div className="hidden lg:flex w-1/2 relative bg-[#1e293b] p-12 flex-col justify-between overflow-hidden">
                 <div className="absolute top-[-10%] left-[-10%] w-[80%] h-[80%] bg-indigo-600/10 rounded-full blur-[120px] animate-blob"></div>
                 <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-600/10 rounded-full blur-[100px] animate-blob animation-delay-2000"></div>
 
                 <div className="relative z-10">
-                    <div className="flex items-center gap-3 mb-12">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="flex items-center gap-3 mb-12"
+                    >
                         <div className="bg-indigo-500 p-2.5 rounded-2xl shadow-lg shadow-indigo-500/20">
                             <GraduationCap className="w-8 h-8 text-white" />
                         </div>
                         <span className="text-white font-black text-3xl tracking-tighter">
                             Rural<span className="text-indigo-400">LMS</span>
                         </span>
-                    </div>
+                    </motion.div>
 
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
+                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                         className="max-w-md"
                     >
-                        <h1 className="text-5xl font-black text-white leading-tight mb-6">
-                            Bridging the <span className="text-indigo-400">Knowledge Gap</span> for Every Rural Mind.
+                        <h1 className="text-6xl font-black text-white leading-tight mb-6 tracking-tight">
+                            Bridging the <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Knowledge Gap</span> <br />
+                            for Rural Minds.
                         </h1>
-                        <p className="text-slate-400 text-lg font-medium leading-relaxed">
-                            Join over 50,000+ students learning the most in-demand skills from top industry experts.
+                        <p className="text-slate-400 text-xl font-medium leading-relaxed">
+                            Empowering communities through accessible, world-class education. Join the revolution today.
                         </p>
                     </motion.div>
                 </div>
@@ -76,8 +106,9 @@ const Login = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    className="relative z-10 bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] max-w-sm"
+                    transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                    className="relative z-10 glass-card p-8 rounded-[2.5rem] max-w-sm border border-white/10"
                 >
                     <div className="flex gap-4 mb-4">
                         <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
@@ -87,110 +118,127 @@ const Login = () => {
                             <Zap size={20} />
                         </div>
                     </div>
-                    <p className="text-slate-300 font-medium italic mb-4">
-                        &quot;Education is the most powerful weapon which you can use to change the world. We bring that weapon to your doorstep.&quot;
+                    <p className="text-slate-200 font-medium italic mb-4 text-lg leading-relaxed">
+                        &quot;Education is the most powerful weapon which you can use to change the world.&quot;
                     </p>
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-slate-700 font-bold flex items-center justify-center text-white text-xs">KP</div>
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 font-bold flex items-center justify-center text-white text-sm shadow-lg shadow-indigo-500/20">KP</div>
                         <div>
-                            <p className="text-white font-bold text-sm">Kiran Patel</p>
-                            <p className="text-slate-500 text-xs">Visionary Educator</p>
+                            <p className="text-white font-bold">Kiran Patel</p>
+                            <p className="text-indigo-400 text-xs font-bold uppercase tracking-widest">Visionary Educator</p>
                         </div>
                     </div>
                 </motion.div>
-                <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#4f46e5_1px,transparent_1px)] [background-size:40px_40px]"></div>
             </div>
 
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative">
-                <div className="lg:hidden absolute top-8 left-8 flex items-center gap-2">
-                    <GraduationCap className="w-6 h-6 text-indigo-500" />
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="lg:hidden absolute top-8 left-8 flex items-center gap-2"
+                >
+                    <div className="bg-indigo-500 p-1.5 rounded-lg">
+                        <GraduationCap className="w-5 h-5 text-white" />
+                    </div>
                     <span className="text-white font-black text-xl tracking-tighter">RuralLMS</span>
-                </div>
+                </motion.div>
 
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
                     className="w-full max-w-md"
                 >
-                    <div className="mb-12">
-                        <h2 className="text-4xl font-black text-white mb-3">Welcome <span className="text-indigo-500">Back</span></h2>
-                        <p className="text-slate-500 font-medium">Please enter your details to sign in.</p>
-                    </div>
+                    <motion.div variants={itemVariants} className="mb-12">
+                        <h2 className="text-5xl font-black text-white mb-3 tracking-tight">
+                            Welcome <span className="text-indigo-500">Back</span>
+                        </h2>
+                        <div className="h-1.5 w-20 bg-indigo-500 rounded-full mb-4"></div>
+                        <p className="text-slate-400 font-medium text-lg">Secure access to your learning portal.</p>
+                    </motion.div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                        <motion.div variants={itemVariants} className="space-y-2">
+                            <label className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Email Address</label>
                             <div className="relative group">
-                                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-indigo-500 transition-colors" />
+                                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-indigo-500 transition-colors duration-300" />
                                 <input
                                     type="email"
-                                    placeholder="name@company.com"
+                                    placeholder="name@rural-lms.com"
                                     required
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full bg-slate-800/50 border-2 border-slate-700/50 rounded-2xl py-4 pl-14 pr-6 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300"
+                                    className="w-full bg-slate-800/40 border-2 border-slate-700/50 rounded-2xl py-4.5 pl-14 pr-6 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300 backdrop-blur-sm"
                                 />
                             </div>
-                        </div>
+                        </motion.div>
 
-                        <div className="space-y-2">
+                        <motion.div variants={itemVariants} className="space-y-2">
                             <div className="flex justify-between items-center ml-1">
-                                <label className="text-sm font-bold text-slate-400 uppercase tracking-widest">Password</label>
-                                <button type="button" className="text-xs font-bold text-indigo-500 hover:text-indigo-400 transition-colors">Forgot Password?</button>
+                                <label className="text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Password</label>
+                                <button type="button" className="text-xs font-bold text-indigo-500 hover:text-indigo-400 transition-colors duration-300">Forgot Password?</button>
                             </div>
                             <div className="relative group">
-                                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-indigo-500 transition-colors" />
+                                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-indigo-500 transition-colors duration-300" />
                                 <input
                                     type="password"
                                     placeholder="••••••••"
                                     required
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    className="w-full bg-slate-800/50 border-2 border-slate-700/50 rounded-2xl py-4 pl-14 pr-6 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300"
+                                    className="w-full bg-slate-800/40 border-2 border-slate-700/50 rounded-2xl py-4.5 pl-14 pr-6 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300 backdrop-blur-sm"
                                 />
                             </div>
-                        </div>
+                        </motion.div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-slate-400 uppercase tracking-widest ml-1">Login As</label>
+                        <motion.div variants={itemVariants} className="space-y-2">
+                            <label className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Account Type</label>
                             <div className="relative group">
-                                <UserCircle className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-indigo-500 transition-colors" />
+                                <UserCircle className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-indigo-500 transition-colors duration-300" />
                                 <select
-                                    className="w-full bg-slate-800/50 border-2 border-slate-700/50 rounded-2xl py-4 pl-14 pr-6 text-white appearance-none focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300"
+                                    className="w-full bg-slate-800/40 border-2 border-slate-700/50 rounded-2xl py-4.5 pl-14 pr-6 text-white appearance-none focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300 backdrop-blur-sm cursor-pointer"
                                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                                     value={formData.role}
                                 >
-                                    <option value="STUDENT" className="bg-slate-900">I am a Student</option>
-                                    <option value="INSTRUCTOR" className="bg-slate-900">I am an Instructor</option>
+                                    <option value="STUDENT" className="bg-slate-900">Student Account</option>
+                                    <option value="INSTRUCTOR" className="bg-slate-900">Instructor Account</option>
                                 </select>
+                                <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-600">
+                                    <ArrowRight className="w-4 h-4 rotate-90" />
+                                </div>
                             </div>
-                        </div>
+                        </motion.div>
 
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-800 text-white font-bold py-4 rounded-2xl shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 group mt-4 relative overflow-hidden"
-                        >
-                            {isLoading ? (
-                                <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                            ) : (
-                                <>
-                                    <span>Sign in to Dashboard</span>
-                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                </>
-                            )}
-                        </button>
+                        <motion.div variants={itemVariants} className="pt-4">
+                            <motion.button
+                                type="submit"
+                                disabled={isLoading}
+                                whileHover={{ scale: 1.01, translateY: -2 }}
+                                whileTap={{ scale: 0.98 }}
+                                className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-800 text-white font-black text-lg py-5 rounded-2xl shadow-2xl shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden animate-shimmer"
+                            >
+                                {isLoading ? (
+                                    <div className="w-6 h-6 border-3 border-white/20 border-t-white rounded-full animate-spin"></div>
+                                ) : (
+                                    <>
+                                        <span>Sign In to Your Dashboard</span>
+                                        <ArrowRight className="w-6 h-6 group-hover:translate-x-1.5 transition-transform duration-300" />
+                                    </>
+                                )}
+                            </motion.button>
+                        </motion.div>
                     </form>
 
-                    <div className="mt-10 text-center">
-                        <p className="text-slate-500 font-medium">
-                            Don&apos;t have an account? {' '}
-                            <Link to="/register/student" className="text-white hover:text-indigo-400 font-bold underline underline-offset-4 decoration-indigo-500 transition-colors ml-1">
-                                Create for free
+                    <motion.div variants={itemVariants} className="mt-12 text-center">
+                        <p className="text-slate-500 font-bold text-lg">
+                            New to RuralLMS?
+                            <Link to="/register/student" className="text-white hover:text-indigo-400 transition-colors duration-300 ml-2 relative group inline-block">
+                                Create Account
+                                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                             </Link>
                         </p>
-                    </div>
+                    </motion.div>
                 </motion.div>
             </div>
         </div>
