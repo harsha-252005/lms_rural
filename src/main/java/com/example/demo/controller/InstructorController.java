@@ -71,7 +71,7 @@ public class InstructorController {
     @PutMapping("/{instructorId}/change-password")
     @Operation(summary = "Change instructor password")
     public ResponseEntity<String> changePassword(@PathVariable("instructorId") Long instructorId,
-            @RequestParam String oldPassword, @RequestParam String newPassword) {
+            @RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword) {
         try {
             instructorService.changePassword(instructorId, oldPassword, newPassword);
             return ResponseEntity.ok("Password changed successfully");

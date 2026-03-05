@@ -19,7 +19,9 @@ const InstructorAssignments = () => {
 
     const loadAssignments = async () => {
         try {
+            console.log('DEBUG_FRONTEND: Loading assignments for instructorId:', user.id);
             const res = await api.get(`/instructor/assignments?instructorId=${user.id}`);
+            console.log('DEBUG_FRONTEND: Assignments received:', res.data);
             setAssignments(res.data);
         } catch (error) {
             console.error('Error loading assignments:', error);
@@ -29,15 +31,19 @@ const InstructorAssignments = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/instructor/assignments', {
+            const payload = {
                 ...formData,
                 instructorId: user.id
-            });
+            };
+            console.log('DEBUG_FRONTEND: Creating assignment with payload:', payload);
+            const res = await api.post('/instructor/assignments', payload);
+            console.log('DEBUG_FRONTEND: Assignment creation response:', res.data);
             alert('Assignment created successfully!');
             setShowForm(false);
             setFormData({ title: '', description: '', classLevel: '', dueDate: '' });
             loadAssignments();
         } catch (error) {
+            console.error('DEBUG_FRONTEND: Error creating assignment:', error);
             alert('Error creating assignment');
         }
     };
@@ -82,14 +88,17 @@ const InstructorAssignments = () => {
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                         required
                     />
-                    <input
-                        type="text"
-                        placeholder="Class Level (e.g., 10)"
+                    <select
                         className="w-full border rounded p-3 mb-3"
                         value={formData.classLevel}
                         onChange={(e) => setFormData({ ...formData, classLevel: e.target.value })}
                         required
-                    />
+                    >
+                        <option value="">Select Class/Level</option>
+                        {[...Array(12)].map((_, i) => (
+                            <option key={i + 1} value={String(i + 1)}>Class {i + 1}</option>
+                        ))}
+                    </select>
                     <input
                         type="datetime-local"
                         className="w-full border rounded p-3 mb-3"

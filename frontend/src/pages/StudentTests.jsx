@@ -49,23 +49,47 @@ const StudentTests = () => {
     };
 
     if (selectedTest) {
-        const questions = JSON.parse(selectedTest.questions);
+        let questions = [];
+        try {
+            questions = selectedTest.questions ? JSON.parse(selectedTest.questions) : [];
+        } catch (e) {
+            console.error('Error parsing questions:', e);
+            questions = [];
+        }
+
+        if (questions.length === 0) {
+            return (
+                <div className="p-6 max-w-4xl mx-auto text-center">
+                    <h1 className="text-3xl font-bold mb-6">{selectedTest.title}</h1>
+                    <div className="bg-white p-12 rounded-lg shadow">
+                        <p className="text-gray-500 text-xl mb-6">No questions available for this test yet.</p>
+                        <button
+                            onClick={() => setSelectedTest(null)}
+                            className="bg-blue-600 text-white px-6 py-2 rounded font-semibold hover:bg-blue-700"
+                        >
+                            Go Back
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div className="p-6 max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold mb-6">{selectedTest.title}</h1>
                 <div className="bg-white p-6 rounded-lg shadow">
                     {questions.map((q, idx) => (
                         <div key={idx} className="mb-6 pb-6 border-b last:border-0">
-                            <p className="font-semibold mb-3">Q{idx + 1}. {q.question}</p>
+                            <p className="font-semibold mb-3">Q{idx + 1}. {q.question || 'Missing question text'}</p>
                             <div className="space-y-2">
-                                {q.options.map((option, optIdx) => (
-                                    <label key={optIdx} className="flex items-center gap-2 cursor-pointer">
+                                {(q.options || []).map((option, optIdx) => (
+                                    <label key={optIdx} className="flex items-center gap-2 cursor-pointer transition-colors hover:bg-gray-50 p-2 rounded">
                                         <input
                                             type="radio"
                                             name={`q${idx}`}
                                             value={option}
                                             onChange={(e) => setAnswers({ ...answers, [idx]: e.target.value })}
-                                            className="w-4 h-4"
+                                            className="w-4 h-4 text-blue-600"
                                         />
                                         <span>{option}</span>
                                     </label>
@@ -73,12 +97,20 @@ const StudentTests = () => {
                             </div>
                         </div>
                     ))}
-                    <button
-                        onClick={submitTest}
-                        className="bg-green-600 text-white px-6 py-3 rounded font-semibold hover:bg-green-700"
-                    >
-                        Submit Test
-                    </button>
+                    <div className="mt-8 flex gap-4">
+                        <button
+                            onClick={submitTest}
+                            className="bg-green-600 text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-green-200 hover:bg-green-700 hover:-translate-y-0.5 transition-all"
+                        >
+                            Submit Test
+                        </button>
+                        <button
+                            onClick={() => setSelectedTest(null)}
+                            className="bg-gray-100 text-gray-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-200 transition-all"
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         );

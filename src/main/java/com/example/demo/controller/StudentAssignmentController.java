@@ -18,14 +18,17 @@ public class StudentAssignmentController {
     private final StudentRepository studentRepository;
 
     @GetMapping("/{studentId}/assignments")
-    public ResponseEntity<List<Assignment>> getMyAssignments(@PathVariable Long studentId) {
+    public ResponseEntity<List<Assignment>> getMyAssignments(@PathVariable("studentId") Long studentId) {
         Student student = studentRepository.findById(studentId).orElseThrow();
         return ResponseEntity.ok(service.getAssignmentsByClass(student.getClassLevel()));
     }
 
     @GetMapping("/{studentId}/tests")
-    public ResponseEntity<List<Test>> getMyTests(@PathVariable Long studentId) {
+    public ResponseEntity<List<Test>> getMyTests(@PathVariable("studentId") Long studentId) {
+        System.out.println("DEBUG_CONTROLLER: GET /api/student/" + studentId + "/tests");
         Student student = studentRepository.findById(studentId).orElseThrow();
+        System.out.println(
+                "DEBUG_CONTROLLER: Student found: " + student.getName() + ", Class: " + student.getClassLevel());
         return ResponseEntity.ok(service.getTestsByClass(student.getClassLevel()));
     }
 
@@ -40,12 +43,13 @@ public class StudentAssignmentController {
     }
 
     @GetMapping("/{studentId}/assignment-submissions")
-    public ResponseEntity<List<AssignmentSubmission>> getMyAssignmentSubmissions(@PathVariable Long studentId) {
+    public ResponseEntity<List<AssignmentSubmission>> getMyAssignmentSubmissions(
+            @PathVariable("studentId") Long studentId) {
         return ResponseEntity.ok(service.getStudentAssignmentSubmissions(studentId));
     }
 
     @GetMapping("/{studentId}/test-submissions")
-    public ResponseEntity<List<TestSubmission>> getMyTestSubmissions(@PathVariable Long studentId) {
+    public ResponseEntity<List<TestSubmission>> getMyTestSubmissions(@PathVariable("studentId") Long studentId) {
         return ResponseEntity.ok(service.getStudentTestSubmissions(studentId));
     }
 }

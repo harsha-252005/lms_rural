@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "assignments")
@@ -17,18 +18,19 @@ public class Assignment {
     private Long id;
 
     private String title;
-    
+
     @Column(columnDefinition = "TEXT")
     private String description;
-    
+
     private String classLevel;
-    
+
     private Long instructorId;
-    
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime dueDate;
-    
+
     private LocalDateTime createdAt;
-    
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

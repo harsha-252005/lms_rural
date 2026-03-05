@@ -17,21 +17,27 @@ public class InstructorAssignmentController {
 
     @PostMapping("/assignments")
     public ResponseEntity<Assignment> createAssignment(@RequestBody Assignment assignment) {
+        System.out.println("DEBUG_CONTROLLER: POST /api/instructor/assignments received: " + assignment);
         return ResponseEntity.ok(service.createAssignment(assignment));
     }
 
     @GetMapping("/assignments")
-    public ResponseEntity<List<Assignment>> getMyAssignments(@RequestParam Long instructorId) {
-        return ResponseEntity.ok(service.getAssignmentsByInstructor(instructorId));
+    public ResponseEntity<List<Assignment>> getMyAssignments(@RequestParam("instructorId") Long instructorId) {
+        System.out.println("DEBUG_CONTROLLER: GET /api/instructor/assignments?instructorId=" + instructorId);
+        List<Assignment> assignments = service.getAssignmentsByInstructor(instructorId);
+        System.out.println("DEBUG_CONTROLLER: Returning " + assignments.size() + " assignments");
+        return ResponseEntity.ok(assignments);
     }
 
     @PostMapping("/tests")
     public ResponseEntity<Test> createTest(@RequestBody Test test) {
+        System.out.println("DEBUG_CONTROLLER: POST /api/instructor/tests received: " + test);
         return ResponseEntity.ok(service.createTest(test));
     }
 
     @GetMapping("/tests")
-    public ResponseEntity<List<Test>> getMyTests(@RequestParam Long instructorId) {
+    public ResponseEntity<List<Test>> getMyTests(@RequestParam("instructorId") Long instructorId) {
+        System.out.println("DEBUG_CONTROLLER: GET /api/instructor/tests?instructorId=" + instructorId);
         return ResponseEntity.ok(service.getTestsByInstructor(instructorId));
     }
 
@@ -43,5 +49,18 @@ public class InstructorAssignmentController {
     @GetMapping("/tests/{testId}/submissions")
     public ResponseEntity<List<TestSubmission>> getTestSubmissions(@PathVariable Long testId) {
         return ResponseEntity.ok(service.getTestSubmissions(testId));
+    }
+
+    // DEBUG ENDPOINTS
+    @GetMapping("/debug/all-tests")
+    public ResponseEntity<List<Test>> getAllTestsDebug() {
+        System.out.println("DEBUG_CONTROLLER: GET /api/instructor/debug/all-tests");
+        return ResponseEntity.ok(service.getAllTestsDebug());
+    }
+
+    @GetMapping("/debug/all-assignments")
+    public ResponseEntity<List<Assignment>> getAllAssignmentsDebug() {
+        System.out.println("DEBUG_CONTROLLER: GET /api/instructor/debug/all-assignments");
+        return ResponseEntity.ok(service.getAllAssignmentsDebug());
     }
 }

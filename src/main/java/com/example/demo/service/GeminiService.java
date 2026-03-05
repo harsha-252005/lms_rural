@@ -47,7 +47,11 @@ public class GeminiService {
             ResponseEntity<String> response = restTemplate.postForEntity(API_URL + apiKey, entity, String.class);
 
             if (response.getStatusCode() == HttpStatus.OK) {
-                JsonNode root = objectMapper.readTree(response.getBody());
+                String responseBody = response.getBody();
+                System.out.println("DEBUG_GEMINI: Raw response length: "
+                        + (responseBody != null ? responseBody.length() : "null"));
+
+                JsonNode root = objectMapper.readTree(responseBody);
                 String text = root.path("candidates")
                         .get(0)
                         .path("content")
@@ -56,12 +60,24 @@ public class GeminiService {
                         .path("text")
                         .asText();
 
-                // Clean markdown if AI included it
-                text = text.replaceAll("```json", "").replaceAll("```", "").trim();
+                System.out.println("DEBUG_GEMINI: Extracted text: " + text);
+
+                // Clean markdown and extract JSON array more robustly
+                if (text.contains("[") && text.contains("]")) {
+                    text = text.substring(text.indexOf("["), text.lastIndexOf("]") + 1);
+                } else {
+                    System.out.println("DEBUG_GEMINI: No JSON array found in text");
+                    return null;
+                }
+
+                System.out.println("DEBUG_GEMINI: Final cleaned JSON: " + text);
                 return text;
+            } else {
+                System.out.println("DEBUG_GEMINI: API returned status: " + response.getStatusCode());
             }
         } catch (Exception e) {
-            System.err.println("Gemini API Error: " + e.getMessage());
+            System.out.println("DEBUG_GEMINI: Error: " + e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }

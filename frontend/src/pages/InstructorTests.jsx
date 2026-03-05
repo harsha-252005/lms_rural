@@ -20,26 +20,42 @@ const InstructorTests = () => {
 
     const loadTests = async () => {
         try {
+            if (!user?.id) {
+                console.error('DEBUG_FRONTEND: No user ID found in localStorage!');
+                return;
+            }
+            console.log('DEBUG_FRONTEND: Loading tests for instructorId:', user.id, 'type:', typeof user.id);
             const res = await api.get(`/instructor/tests?instructorId=${user.id}`);
+            console.log('DEBUG_FRONTEND: Tests received count:', res.data?.length);
+            console.log('DEBUG_FRONTEND: All tests received:', JSON.stringify(res.data, null, 2));
             setTests(res.data);
         } catch (error) {
-            console.error('Error loading tests:', error);
+            console.error('DEBUG_FRONTEND: Error loading tests:', error);
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/instructor/tests', {
+            const payload = {
                 ...formData,
                 instructorId: user.id
-            });
+            };
+            console.log('DEBUG_FRONTEND: Creating test with payload:', JSON.stringify(payload, null, 2));
+            const res = await api.post('/instructor/tests', payload);
+            console.log('DEBUG_FRONTEND: SECURE Test creation response status:', res.status);
+            console.log('DEBUG_FRONTEND: Test creation response data:', JSON.stringify(res.data, null, 2));
             alert('Test created with auto-generated questions!');
             setShowForm(false);
             setFormData({ title: '', topic: 'math', classLevel: '', totalMarks: 10, dueDate: '' });
             loadTests();
         } catch (error) {
-            alert('Error creating test');
+            console.error('DEBUG_FRONTEND: Error creating test:', error);
+            if (error.response) {
+                console.error('DEBUG_FRONTEND: Error response data:', error.response.data);
+                console.error('DEBUG_FRONTEND: Error response status:', error.response.status);
+            }
+            alert('Error creating test: ' + (error.response?.data?.message || error.message));
         }
     };
 
@@ -94,14 +110,17 @@ const InstructorTests = () => {
                         <option value="english">English</option>
                         <option value="history">History</option>
                     </select>
-                    <input
-                        type="text"
-                        placeholder="Class Level (e.g., 10)"
+                    <select
                         className="w-full border rounded p-3 mb-3"
                         value={formData.classLevel}
                         onChange={(e) => setFormData({ ...formData, classLevel: e.target.value })}
                         required
-                    />
+                    >
+                        <option value="">Select Class/Level</option>
+                        {[...Array(12)].map((_, i) => (
+                            <option key={i + 1} value={String(i + 1)}>Class {i + 1}</option>
+                        ))}
+                    </select>
                     <input
                         type="number"
                         placeholder="Total Marks"
