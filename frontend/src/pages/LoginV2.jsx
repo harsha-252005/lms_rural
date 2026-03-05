@@ -148,7 +148,7 @@ const Login = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="w-full max-w-md"
+                    className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden group"
                 >
                     <motion.div variants={itemVariants} className="mb-12">
                         <h2 className="text-5xl font-black text-white mb-3 tracking-tight">
@@ -169,7 +169,7 @@ const Login = () => {
                                     required
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full bg-slate-800/40 border-2 border-slate-700/50 rounded-2xl py-4.5 pl-14 pr-6 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300 backdrop-blur-sm"
+                                    className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all backdrop-blur-sm"
                                 />
                             </div>
                         </motion.div>
@@ -187,7 +187,7 @@ const Login = () => {
                                     required
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    className="w-full bg-slate-800/40 border-2 border-slate-700/50 rounded-2xl py-4.5 pl-14 pr-6 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300 backdrop-blur-sm"
+                                    className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all backdrop-blur-sm"
                                 />
                             </div>
                         </motion.div>
@@ -197,7 +197,7 @@ const Login = () => {
                             <div className="relative group">
                                 <UserCircle className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-indigo-500 transition-colors duration-300" />
                                 <select
-                                    className="w-full bg-slate-800/40 border-2 border-slate-700/50 rounded-2xl py-4.5 pl-14 pr-6 text-white appearance-none focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-300 backdrop-blur-sm cursor-pointer"
+                                    className="w-full bg-slate-800/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white appearance-none focus:outline-none focus:border-indigo-500/50 transition-all backdrop-blur-sm cursor-pointer"
                                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                                     value={formData.role}
                                 >
