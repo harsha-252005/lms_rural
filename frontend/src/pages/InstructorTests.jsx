@@ -87,7 +87,7 @@ const InstructorTests = () => {
             </div>
 
             {showForm && (
-                <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow mb-6">
+                <form onSubmit={handleSubmit} className="bg-white p-8 rounded-[2rem] shadow-2xl border border-white/10 mb-8 text-slate-900">
                     <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-4 flex items-center gap-2">
                         <Sparkles className="w-5 h-5 text-blue-600" />
                         <span className="text-sm text-blue-800">Questions will be auto-generated based on topic!</span>
@@ -142,9 +142,9 @@ const InstructorTests = () => {
                 </form>
             )}
 
-            <div className="grid gap-4">
+            <div className="grid gap-6">
                 {tests.map(test => (
-                    <div key={test.id} className="bg-white p-6 rounded-lg shadow">
+                    <div key={test.id} className="bg-white p-8 rounded-[2.5rem] shadow-2xl border border-white/10 text-slate-900">
                         <div className="flex justify-between items-start">
                             <div>
                                 <h3 className="text-xl font-bold flex items-center gap-2">

@@ -15,6 +15,7 @@ const StudentTests = () => {
     const loadTests = async () => {
         try {
             const res = await api.get(`/student/${user.id}/tests`);
+            console.log('DEBUG_STUDENT: Tests fetched:', res.data);
             setTests(res.data);
         } catch (error) {
             console.error('Error loading tests:', error);
@@ -51,7 +52,12 @@ const StudentTests = () => {
     if (selectedTest) {
         let questions = [];
         try {
+            console.log('DEBUG_STUDENT: Raw questions from DB:', selectedTest.questions);
             questions = selectedTest.questions ? JSON.parse(selectedTest.questions) : [];
+            console.log('DEBUG_STUDENT: Parsed questions count:', questions.length);
+            if (questions.length > 0) {
+                console.log('DEBUG_STUDENT: First question sample:', questions[0]);
+            }
         } catch (e) {
             console.error('Error parsing questions:', e);
             questions = [];
@@ -61,8 +67,8 @@ const StudentTests = () => {
             return (
                 <div className="p-6 max-w-4xl mx-auto text-center">
                     <h1 className="text-3xl font-bold mb-6">{selectedTest.title}</h1>
-                    <div className="bg-white p-12 rounded-lg shadow">
-                        <p className="text-gray-500 text-xl mb-6">No questions available for this test yet.</p>
+                    <div className="bg-white p-12 rounded-lg shadow text-slate-900">
+                        <p className="text-slate-600 text-xl mb-6">No questions available for this test yet.</p>
                         <button
                             onClick={() => setSelectedTest(null)}
                             className="bg-blue-600 text-white px-6 py-2 rounded font-semibold hover:bg-blue-700"
@@ -75,9 +81,9 @@ const StudentTests = () => {
         }
 
         return (
-            <div className="p-6 max-w-4xl mx-auto">
-                <h1 className="text-3xl font-bold mb-6">{selectedTest.title}</h1>
-                <div className="bg-white p-6 rounded-lg shadow">
+            <div className="p-6 max-w-4xl mx-auto text-slate-900">
+                <h1 className="text-3xl font-bold mb-6 text-white">{selectedTest.title}</h1>
+                <div className="bg-white p-10 rounded-[2rem] shadow-2xl border border-white/10">
                     {questions.map((q, idx) => {
                         // Defensive property access for inconsistent AI responses
                         const questionText = q.question || q.Question || q.text || 'Missing question text';

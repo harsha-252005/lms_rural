@@ -48,8 +48,12 @@ public class AssignmentTestService {
                 System.out.println("DEBUG_TEST: Creating test: " + test.getTitle() + " for instructor: "
                                 + test.getInstructorId());
                 if (test.getQuestions() == null || test.getQuestions().isEmpty()) {
-                        System.out.println("DEBUG_TEST: Questions empty, generating for topic: " + test.getTopic());
-                        test.setQuestions(generateQuestions(test.getTopic()));
+                        String generationTopic = test.getTopic();
+                        if (test.getTitle() != null && !test.getTitle().isEmpty()) {
+                                generationTopic = test.getTitle() + " (" + test.getTopic() + ")";
+                        }
+                        System.out.println("DEBUG_TEST: Questions empty, generating for: " + generationTopic);
+                        test.setQuestions(generateQuestions(generationTopic));
                 }
                 Test savedTest = testRepository.save(test);
                 System.out.println("DEBUG_TEST: Test saved with ID: " + savedTest.getId());
