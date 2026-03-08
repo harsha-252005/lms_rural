@@ -1,0 +1,5 @@
+﻿email	LENGTH(email)	password	LENGTH(password)
+guhan@gmail.com	15	guh	3
+test@test.com	13	test123	7
+email	LENGTH(email)	password	LENGTH(password)
+kaviya@gmail.com	16	kav	3

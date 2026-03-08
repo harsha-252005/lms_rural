@@ -76,7 +76,8 @@ public class AssignmentTestService {
                 System.out.println("DEBUG_TEST: Attempting AI generation for topic: " + cleanTopic);
 
                 String aiQuestions = geminiService.generateQuestions(cleanTopic, 10);
-                if (aiQuestions != null && !aiQuestions.trim().isEmpty() && !aiQuestions.equals("[]")) {
+                if (aiQuestions != null && aiQuestions.contains("\"question\"") && aiQuestions.contains("[")
+                                && aiQuestions.length() > 50) {
                         System.out.println("DEBUG_TEST: AI successfully generated questions.");
                         return aiQuestions;
                 }

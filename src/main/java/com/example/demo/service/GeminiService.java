@@ -26,10 +26,11 @@ public class GeminiService {
 
         String prompt = String.format(
                 "Generate %d multiple choice questions about '%s' for students. " +
-                        "Return ONLY a JSON array of objects. Each object must have: " +
-                        "'question' (string), 'options' (array of 4 strings), and 'correctAnswer' (string which must be one of the options). "
+                        "Return ONLY a raw JSON array of objects. " +
+                        "CRITICAL: Use exactly these keys: 'question' (string), 'options' (array of 4 strings), 'correctAnswer' (string). "
                         +
-                        "Do not include any markdown formatting or explanations.",
+                        "The 'correctAnswer' MUST be identical to one of the strings in the 'options' array. " +
+                        "Do not include markdown tags, backticks, or any text other than the JSON array.",
                 count, topic);
 
         try {

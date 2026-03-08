@@ -27,14 +27,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String registerStudent(StudentRegistrationDto registrationDto) {
-        if (studentRepository.existsByEmail(registrationDto.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-
+        System.out.println("DEBUG_REGISTER: Registering student: " + registrationDto.getEmail());
         Student student = new Student();
         student.setName(registrationDto.getName());
         student.setEmail(registrationDto.getEmail());
         student.setPassword(registrationDto.getPassword()); // Plain text as requested
+        System.out.println("DEBUG_REGISTER: Password set to: " + student.getPassword());
         student.setClassLevel(registrationDto.getClassLevel());
 
         // Note: phone and village are required in the entity but not in the DTO
@@ -54,14 +52,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String registerInstructor(InstructorRegistrationDto registrationDto) {
-        if (instructorRepository.findByEmail(registrationDto.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
-        }
-
+        System.out.println("DEBUG_REGISTER: Registering instructor: " + registrationDto.getEmail());
         Instructor instructor = new Instructor();
         instructor.setName(registrationDto.getName());
         instructor.setEmail(registrationDto.getEmail());
         instructor.setPassword(registrationDto.getPassword()); // Plain text as requested
+        System.out.println("DEBUG_REGISTER: Password set to: " + instructor.getPassword());
         instructor.setSpecialization(registrationDto.getSpecialization());
         instructor.setPhone("N/A"); // Default phone as it's required in model but not in DTO
 
@@ -109,8 +105,9 @@ public class AuthServiceImpl implements AuthService {
                         + "' vs '" + loginDto.getPassword() + "'");
                 if (instructor.get().getPassword().equals(loginDto.getPassword())) {
                     // Track login activity
-                    activityLogRepository.save(new ActivityLog(null, instructor.get().getId(), instructor.get().getName(),
-                            "LOGIN", LocalDateTime.now()));
+                    activityLogRepository
+                            .save(new ActivityLog(null, instructor.get().getId(), instructor.get().getName(),
+                                    "LOGIN", LocalDateTime.now()));
 
                     return new LoginResponseDto(
                             "Login successful for Instructor",
