@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/instructor")
@@ -14,6 +15,19 @@ import java.util.List;
 public class InstructorAssignmentController {
 
     private final AssignmentTestService service;
+
+    @PostMapping("/tests/generate")
+    public ResponseEntity<String> generateQuestions(@RequestBody Map<String, String> request) {
+        String title = request.getOrDefault("title", "");
+        String topic = request.getOrDefault("topic", "math");
+        String generationTopic = topic;
+        if (title != null && !title.isEmpty()) {
+            generationTopic = title + " (" + topic + ")";
+        }
+        System.out.println("DEBUG_CONTROLLER: POST /api/instructor/tests/generate for: " + generationTopic);
+        String questions = service.generateQuestions(generationTopic);
+        return ResponseEntity.ok(questions);
+    }
 
     @PostMapping("/assignments")
     public ResponseEntity<Assignment> createAssignment(@RequestBody Assignment assignment) {
@@ -42,12 +56,13 @@ public class InstructorAssignmentController {
     }
 
     @GetMapping("/assignments/{assignmentId}/submissions")
-    public ResponseEntity<List<AssignmentSubmission>> getAssignmentSubmissions(@PathVariable Long assignmentId) {
+    public ResponseEntity<List<AssignmentSubmission>> getAssignmentSubmissions(
+            @PathVariable("assignmentId") Long assignmentId) {
         return ResponseEntity.ok(service.getAssignmentSubmissions(assignmentId));
     }
 
     @GetMapping("/tests/{testId}/submissions")
-    public ResponseEntity<List<TestSubmission>> getTestSubmissions(@PathVariable Long testId) {
+    public ResponseEntity<List<TestSubmission>> getTestSubmissions(@PathVariable("testId") Long testId) {
         return ResponseEntity.ok(service.getTestSubmissions(testId));
     }
 

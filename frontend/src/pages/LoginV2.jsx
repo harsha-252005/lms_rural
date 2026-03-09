@@ -122,9 +122,9 @@ const Login = () => {
                         &quot;Bringing world-class education to every corner of rural India. Your background should not determine your future.&quot;
                     </p>
                     <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 font-bold flex items-center justify-center text-white text-sm shadow-lg shadow-indigo-500/20">AS</div>
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 font-bold flex items-center justify-center text-white text-sm shadow-lg shadow-indigo-500/20">H</div>
                         <div>
-                            <p className="text-white font-bold">Anita Sharma</p>
+                            <p className="text-white font-bold">Harsha</p>
                             <p className="text-indigo-400 text-xs font-bold uppercase tracking-widest">Rural Educator</p>
                         </div>
                     </div>

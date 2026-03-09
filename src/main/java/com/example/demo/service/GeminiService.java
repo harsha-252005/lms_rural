@@ -15,7 +15,7 @@ public class GeminiService {
     @Value("${gemini.api.key}")
     private String apiKey;
 
-    private final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
+    private final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=";
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -25,13 +25,18 @@ public class GeminiService {
         }
 
         String prompt = String.format(
-                "Generate %d multiple choice questions about '%s' for students. " +
-                        "Return ONLY a raw JSON array of objects. " +
-                        "CRITICAL: Use exactly these keys: 'question' (string), 'options' (array of 4 strings), 'correctAnswer' (string). "
+                "You are a school teacher creating a test. Generate exactly %d multiple choice questions specifically about '%s'. "
                         +
-                        "The 'correctAnswer' MUST be identical to one of the strings in the 'options' array. " +
-                        "Do not include markdown tags, backticks, or any text other than the JSON array.",
-                count, topic);
+                        "The questions MUST be factual and directly related to '%s' - test actual knowledge about this specific topic. "
+                        +
+                        "Do NOT create generic questions like 'What is this topic?' or 'Why is this important?'. " +
+                        "Create questions that test real facts, definitions, processes, and concepts about '%s'. " +
+                        "Return ONLY a raw JSON array. Each object must have exactly these keys: " +
+                        "'question' (string with the question text), 'options' (array of exactly 4 string answer choices), "
+                        +
+                        "'correctAnswer' (string that exactly matches one of the options). " +
+                        "No markdown, no backticks, no explanation - only the JSON array.",
+                count, topic, topic, topic);
 
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -53,8 +58,13 @@ public class GeminiService {
                         + (responseBody != null ? responseBody.length() : "null"));
 
                 JsonNode root = objectMapper.readTree(responseBody);
-                String text = root.path("candidates")
-                        .get(0)
+                JsonNode candidates = root.path("candidates");
+                if (candidates.isMissingNode() || candidates.isEmpty()) {
+                    System.out.println("DEBUG_GEMINI: No candidates found in response: " + responseBody);
+                    return null;
+                }
+
+                String text = candidates.get(0)
                         .path("content")
                         .path("parts")
                         .get(0)
@@ -67,7 +77,7 @@ public class GeminiService {
                 if (text.contains("[") && text.contains("]")) {
                     text = text.substring(text.indexOf("["), text.lastIndexOf("]") + 1);
                 } else {
-                    System.out.println("DEBUG_GEMINI: No JSON array found in text");
+                    System.out.println("DEBUG_GEMINI: No JSON array found in text: " + text);
                     return null;
                 }
 
@@ -75,9 +85,12 @@ public class GeminiService {
                 return text;
             } else {
                 System.out.println("DEBUG_GEMINI: API returned status: " + response.getStatusCode());
+                System.out.println("DEBUG_GEMINI: Error body: " + response.getBody());
             }
+        } catch (org.springframework.web.client.HttpClientErrorException e) {
+            System.out.println("DEBUG_GEMINI: HTTP Error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
         } catch (Exception e) {
-            System.out.println("DEBUG_GEMINI: Error: " + e.getMessage());
+            System.out.println("DEBUG_GEMINI: Unexpected Error: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
