@@ -10,66 +10,13 @@ RuralLMS is a mission-driven Learning Management System designed to bring world-
 ---
 
 ## 📑 Table of Contents
-- [🌟 Our Mission](#-our-mission)
-- [✨ Key Modules](#-key-modules)
-- [🛠️ Technical Architecture](#-technical-architecture)
-- [🧩 Project Ecosystem](#-project-ecosystem)
 - [🚀 Rapid Onboarding](#-rapid-onboarding)
-- [📚 Resource Library](#-resource-library)
+- [✨ Key Modules](#-key-modules)
+- [🌟 Our Mission](#-our-mission)
+- [🛠️ Technical Architecture](#-technical-architecture)
 - [🗺️ Technical Map](#-technical-map)
-
----
-
-## 🌟 Our Mission
-In many rural areas, high-quality educational resources are scarce. **RuralLMS** addresses this by:
-- Providing a **centralized portal** for digital learning.
-- Automating **class-level enrollment** to simplify access for students.
-- Leveraging **AI (Gemini)** to generate high-quality assessments instantly.
-- Supporting **video-based learning** tailored for low-bandwidth environments.
-
----
-
-## ✨ Key Modules
-
-### 👨‍🏫 Instructor Suite
-- **Course Studio**: Create, draft, and publish multimedia courses.
-- **AI Assessment Engine**: Generate smart test questions based on course content.
-- **Student Management**: Oversee progress and engagement across different class levels.
-
-### 🎓 Student Experience
-- **Smart Enrollment**: Log in and instantly see courses relevant to your class level.
-- **Learning Path**: Interactive video player and progress tracking.
-- **Instant Assessments**: Take AI-generated tests and receive immediate results.
-
----
-
-## 🛠️ Technical Architecture
-
-### 🛡️ Backend Layer
-- **Engine**: Spring Boot 3.2.3 (Java 17)
-- **Security**: Robust Spring Security integration.
-- **Persistence**: MySQL via Hibernate/JPA.
-- **API Specs**: SpringDoc OpenAPI (Swagger).
-- **Automation**: Repository-level data flow optimization for performance.
-
-### 🎨 Frontend Layer
-- **Core**: React 18 powered by Vite.
-- **Design**: Premium Glassmorphism UI with TailwindCSS.
-- **Interactions**: Fluid animations via Framer Motion.
-- **Iconography**: Clean, semantic icons from Lucide React.
-- **Communication**: Promise-based Axios architecture.
-
----
-
-## 🧩 Project Ecosystem
-
-| File | Purpose |
-|------|---------|
-| `src/` | Java Backend source code (Controller-Service-Repository pattern). |
-| `frontend/` | React application source code. |
-| `API_TESTING_GUIDE.md` | Comprehensive instructions for endpoint verification. |
-| `START_HERE.md` | The primary onboarding guide for developers. |
-| `FRONTEND_API_REFERENCE.md` | Documentation for frontend-backend integration. |
+- [🧩 Project Ecosystem](#-project-ecosystem)
+- [📚 Resource Library](#-resource-library)
 
 ---
 
@@ -93,11 +40,44 @@ npm run dev
 
 ---
 
-## 📚 Resource Library
-- [🚀 Quick Start Guide](START_HERE.md) — Get running in 5 minutes.
-- [📝 API Testing Guide](API_TESTING_GUIDE.md) — Test your setup.
-- [🧩 Frontend Reference](FRONTEND_API_REFERENCE.md) — Developer docs.
-- [🔧 Troubleshooting](TROUBLESHOOTING_GUIDE.md) — Common fixes.
+## ✨ Key Modules
+
+### 👨‍🏫 Instructor Suite
+- **Course Studio**: Create, draft, and publish multimedia courses.
+- **AI Assessment Engine**: Generate smart test questions based on course content.
+- **Student Management**: Oversee progress and engagement across different class levels.
+
+### 🎓 Student Experience
+- **Smart Enrollment**: Log in and instantly see courses relevant to your class level.
+- **Learning Path**: Interactive video player and progress tracking.
+- **Instant Assessments**: Take AI-generated tests and receive immediate results.
+
+---
+
+## 🌟 Our Mission
+In many rural areas, high-quality educational resources are scarce. **RuralLMS** addresses this by:
+- Providing a **centralized portal** for digital learning.
+- Automating **class-level enrollment** to simplify access for students.
+- Leveraging **AI (Gemini)** to generate high-quality assessments instantly.
+- Supporting **video-based learning** tailored for low-bandwidth environments.
+
+---
+
+## 🛠️ Technical Architecture
+
+### 🛡️ Backend Layer
+- **Engine**: Spring Boot 3.2.3 (Java 17)
+- **Security**: Robust Spring Security integration.
+- **Persistence**: MySQL via Hibernate/JPA.
+- **API Specs**: SpringDoc OpenAPI (Swagger).
+- **Automation**: Repository-level data flow optimization for performance.
+
+### 🎨 Frontend Layer
+- **Core**: React 18 powered by Vite.
+- **Design**: Premium Glassmorphism UI with TailwindCSS.
+- **Interactions**: Fluid animations via Framer Motion.
+- **Iconography**: Clean, semantic icons from Lucide React.
+- **Communication**: Promise-based Axios architecture.
 
 ---
 
@@ -117,4 +97,24 @@ lms-for-rural/
 
 ---
 
-*Built with ❤️ for rural education by harsha-252005*
+## 🧩 Project Ecosystem
+
+| File | Purpose |
+|------|---------|
+| `src/` | Java Backend source code (Controller-Service-Repository pattern). |
+| `frontend/` | React application source code. |
+| `API_TESTING_GUIDE.md` | Comprehensive instructions for endpoint verification. |
+| `START_HERE.md` | The primary onboarding guide for developers. |
+| `FRONTEND_API_REFERENCE.md` | Documentation for frontend-backend integration. |
+
+---
+
+## 📚 Resource Library
+- [🚀 Quick Start Guide](START_HERE.md) — Get running in 5 minutes.
+- [📝 API Testing Guide](API_TESTING_GUIDE.md) — Test your setup.
+- [🧩 Frontend Reference](FRONTEND_API_REFERENCE.md) — Developer docs.
+- [🔧 Troubleshooting](TROUBLESHOOTING_GUIDE.md) — Common fixes.
+
+---
+
+*Built with ❤️ for rural education by Harsha*
