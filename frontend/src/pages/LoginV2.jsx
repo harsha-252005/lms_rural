@@ -119,13 +119,13 @@ const Login = () => {
                         </div>
                     </div>
                     <p className="text-slate-200 font-medium italic mb-4 text-lg leading-relaxed">
-                        &quot;Education is the most powerful weapon which you can use to change the world.&quot;
+                        &quot;The beautiful thing about learning is that no one can take it away from you.&quot;
                     </p>
                     <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 font-bold flex items-center justify-center text-white text-sm shadow-lg shadow-indigo-500/20">N</div>
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 font-bold flex items-center justify-center text-white text-sm shadow-lg shadow-indigo-500/20">BB</div>
                         <div>
-                            <p className="text-white font-bold">Nelson Mandela</p>
-                            <p className="text-indigo-400 text-xs font-bold uppercase tracking-widest">Global Icon</p>
+                            <p className="text-white font-bold">B.B. King</p>
+                            <p className="text-indigo-400 text-xs font-bold uppercase tracking-widest">Musician & Educator</p>
                         </div>
                     </div>
                 </motion.div>
